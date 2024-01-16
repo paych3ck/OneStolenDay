@@ -75,21 +75,12 @@ screen osd_main_menu():
             ypos 662
             action [SetVariable("osd_main_menu_var", False), ShowMenu("osd_preferences_main_menu")]
 
-        # if persistent.osd_achievements_unlocked:
         textbutton "[osd_extra_text]" at osd_buttons_atl():
             style "osd_main_menu"
             text_style "osd_main_menu"
             xalign 0.5
             ypos 538
             action [SetVariable("osd_main_menu_var", False), ShowMenu("osd_extra")]
-
-        # else:                
-        #     textbutton "[osd_extra_text]":
-        #         style "osd_main_menu_locked"
-        #         text_style "osd_main_menu_locked"
-        #         xalign 0.5
-        #         ypos 538
-        #         action NullAction()
                 
         textbutton ["Выход"] at osd_buttons_atl():
             style "osd_main_menu"
@@ -103,9 +94,6 @@ screen osd_main_menu():
             xpos 1520
             ypos 800
             action OpenURL("https://vk.com/public176281709")
-            
-    else:
-        pass
         
 screen osd_quit_main_menu():
     modal True
@@ -138,9 +126,6 @@ screen osd_quit_main_menu():
             xpos 1230
             ypos 600
             action [SetVariable("osd_main_menu_var", True), Hide("osd_quit_main_menu"), ShowMenu("osd_main_menu")]
-            
-    else:
-        pass
         
 screen osd_preferences_main_menu():
     modal True
@@ -272,9 +257,6 @@ screen osd_preferences_main_menu():
             xalign 0.1
             ypos 970
             action [SetVariable("osd_main_menu_var", True), Hide("osd_preferences_main_menu"), ShowMenu("osd_main_menu")]
-            
-    else:
-        pass
         
 screen osd_load_main_menu():
     modal True
@@ -340,9 +322,6 @@ screen osd_load_main_menu():
                                 style "osd_text_save_load_main_menu"
                                 xpos 15
                                 ypos 15
-                                
-    else:
-        pass
         
 screen osd_extra():
     modal True

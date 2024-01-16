@@ -150,22 +150,6 @@ init python:
     def osd_stop_skipping():
         renpy.config.skipping = None
 
-    def osd_predict_screens():
-        for screen_name in osd_screens_list:
-            renpy.start_predict_screen(screen_name)
-
-    def osd_predict_resources():
-        for folder_name in osd_folders_list:
-            renpy.start_predict(folder_name)
-
-    def osd_stop_predict_screens():
-        for screen_name in osd_screens_list:
-            renpy.stop_predict_screen(screen_name)
-
-    def osd_stop_predict_resources():
-        for folder_name in osd_folders_list:
-            renpy.stop_predict(folder_name)
-
     def osd_onload(type):
         global osd_lock_quit
         global osd_lock_quick_menu
@@ -181,58 +165,6 @@ init python:
             osd_lock_quick_menu = False
             config.allow_skipping = True
 
-    def osd_predict_resources_d():
-        osd_rightnow_r = time.time()
-
-        while time.time() - osd_rightnow_r < 6:
-            osd_predict_resources()
-            
-            renpy.show("osd_first_dot_image", at_list = [osd_first_dot_pos])
-            renpy.pause(0.7, hard = True)
-            renpy.show("osd_second_dot_image", at_list = [osd_second_dot_pos])
-            renpy.pause(0.7, hard = True)
-            renpy.show("osd_third_dot_image", at_list = [osd_third_dot_pos])
-            renpy.pause(0.7, hard = True)
-            renpy.hide("osd_first_dot_image")
-            renpy.hide("osd_second_dot_image")
-            renpy.hide("osd_third_dot_image")
-            renpy.pause(0.7, hard = True)
-
-    def osd_predict_screens_d():
-        osd_rightnow_s = time.time()
-
-        while time.time() - osd_rightnow_s < 2:
-            osd_predict_screens()
-
-            renpy.show("osd_first_dot_image", at_list = [osd_first_dot_pos])
-            renpy.pause(0.7, hard = True)
-            renpy.show("osd_second_dot_image", at_list = [osd_second_dot_pos])
-            renpy.pause(0.7, hard = True)
-            renpy.show("osd_third_dot_image", at_list = [osd_third_dot_pos])
-            renpy.pause(0.7, hard = True)
-            renpy.hide("osd_first_dot_image")
-            renpy.hide("osd_second_dot_image")
-            renpy.hide("osd_third_dot_image")
-            renpy.pause(0.7, hard = True)
-
-        renpy.show("osd_first_dot_image", at_list = [osd_first_dot_pos])
-        renpy.music.stop("ambience", 2)
-
-    def osd_predicting():
-        osd_predict_resources_d()
-        osd_predict_screens_d()
-
-    def osd_loading_screen():
-        renpy.pause(2, hard = True)
-        renpy.show("osd_sky_day")
-        renpy.show("osd_logo")
-        renpy.show("osd_loading_text", at_list = [osd_loading_text_pos])
-        renpy.music.play(osd_wind, "ambience", fadein = 2)
-        renpy.show("osd_loading_icon", at_list = [osd_full_rotate_repeat(1.1, 0.8, 0.5, 0.5)])
-        renpy.transition(Dissolve(2))
-        renpy.pause(2.0, hard = True)
-        osd_predicting()
-
     def osd_show_titles():
         renpy.show("osd_titles_frame")
         renpy.show_screen("osd_titles_overlay", _layer = "overlay")
@@ -242,7 +174,7 @@ init python:
         renpy.pause(3, hard = True)
 
     def osd_portal_using(before_portal_use_bg, after_portal_use_bg):
-        renpy.play(osd_portal_use, channel = "sound")
+        renpy.play(osd_portal_use, channel="sound")
         renpy.scene()
         renpy.show(before_portal_use_bg, at_list = [osd_portal_using_zoom])
         renpy.pause(0.035, hard = True)
@@ -252,10 +184,11 @@ init python:
         renpy.pause(1.2, hard = True)
         renpy.show(after_portal_use_bg)
         renpy.transition(flash)
+        renpy.pause(1, hard=True)
 
-    class osd_particles(renpy.Displayable, NoRollback):   
+    class OsdDust(renpy.Displayable, NoRollback):   
         def __init__(self, particle):
-            super(osd_particles, self).__init__()
+            super(OsdDust, self).__init__()
             self.particle = renpy.displayable(particle)           
             self.parts_cache = []
             
@@ -265,10 +198,10 @@ init python:
             self.max_parts = 125
             self.oldst = None                    
         
-        def osd_particles_create_cache(self):     
-            self.parts_cache = [self.osd_particles_get_anim() for i in xrange(self.max_parts)]
+        def osd_dust_create_cache(self):     
+            self.parts_cache = [self.osd_dust_get_anim() for i in xrange(self.max_parts)]
         
-        def osd_particles_get_anim(self):
+        def osd_dust_get_anim(self):
             part = self.particle
             pos = [random.randint(0, config.screen_width), random.randint(0, config.screen_height)]
             pos2 = [random.randint(0, config.screen_width), random.randint(0, config.screen_height)]
@@ -284,10 +217,10 @@ init python:
             current_alpha = .0
             return [part, pos, pos2, dist, speed, alpha, zoom, time, elapsed_time, birth_time, death_time, current_zoom, current_alpha]      
         
-        def osd_particles_visit(self):
+        def osd_dust_visit(self):
             return [i[0] for i in self.parts_cache]
         
-        def osd_particles_update(self, st):            
+        def osd_dust_update(self, st):            
             if self.oldst == None:
                 self.oldst = st
             
@@ -303,7 +236,7 @@ init python:
                     self.tick = 0     
                 
                 if part[8] <= .0:
-                    upd_val = self.osd_particles_get_anim()
+                    upd_val = self.osd_dust_get_anim()
 
                     for i in xrange(1, 13):
                         part[i] = upd_val[i]
@@ -346,7 +279,7 @@ init python:
         
         def render(self, width, height, st, at):               
             if not self.parts_cache:
-                self.osd_particles_create_cache()
+                self.osd_dust_create_cache()
             
             renderObj = renpy.Render(config.screen_width, config.screen_height)
             
@@ -357,7 +290,7 @@ init python:
                 cp_render = renpy.render(t, width, height, st, at)
                 renderObj.blit(cp_render, (xpos, ypos))
             
-            self.osd_particles_update(st)              
+            self.osd_dust_update(st)              
             renpy.redraw(self, 0)
             return renderObj
 
@@ -368,13 +301,13 @@ init:
 
     image osd_loading_text = Text("Загрузка", size = 65, font = "osd/images/gui/fonts/gothic.ttf")
 
-    $ osd_screens_list = [
-        "osd_main_menu", "osd_preferences_main_menu", "osd_load_main_menu", "osd_achievements", "osd_quit_main_menu", "osd_preferences", 
-        "osd_save", "osd_load", "osd_say", "osd_nvl", "osd_game_menu_selector", "osd_quit", "osd_yesno_prompt", "osd_text_history", "osd_choice", "osd_help", "osd_fight_with_nit", 
-        "osd_fight_ahead2", "osd_fight_parallax2", "osd_bar1", "osd_bar2", "osd_titles_overlay"
-    ]
+    # $ osd_screens_list = [
+    #     "osd_main_menu", "osd_preferences_main_menu", "osd_load_main_menu", "osd_achievements", "osd_quit_main_menu", "osd_preferences", 
+    #     "osd_save", "osd_load", "osd_say", "osd_nvl", "osd_game_menu_selector", "osd_quit", "osd_yesno_prompt", "osd_text_history", "osd_choice", "osd_help", "osd_fight_with_nit", 
+    #     "osd_fight_ahead2", "osd_fight_parallax2", "osd_bar1", "osd_bar2", "osd_titles_overlay"
+    # ]
 
-    $ osd_folders_list = ["osd/images/bg*.*", "osd/images/sprites*.*"]
+    # $ osd_folders_list = ["osd/images/bg*.*", "osd/images/sprites*.*"]
     $ osd_lamp_anim_frequency = renpy.random.randint(1, 5)
 
     $ osd_main_menu_var = True
@@ -394,7 +327,7 @@ init:
         pause 6.0
         repeat
 
-    image osd_dust = osd_particles("osd/images/gui/effects/osd_dust/particle.png")
+    image osd_dust = OsdDust("osd/images/gui/effects/osd_dust/particle.png")
 
     image bg osd_stars_anim = osd_frame_animation("osd/images/bg/osd_stars_anim/osd_stars", 2, 1.5, True, Dissolve(1.5))
     image osd_blood_anim = osd_frame_animation("osd/images/gui/effects/osd_blood/osd_blood", 4, 0.5, True, dspr)
@@ -538,6 +471,6 @@ init:
                 ease 0.5 alpha 0.0
 
             parallel:
-                ease 0.75 zoom zoom2#1.05#0.90
+                ease 0.75 zoom zoom2
 
             repeat
