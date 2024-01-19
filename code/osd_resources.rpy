@@ -184,7 +184,25 @@ init python:
         renpy.pause(1.2, hard = True)
         renpy.show(after_portal_use_bg)
         renpy.transition(flash)
-        renpy.pause(1, hard=True)
+        renpy.pause(1.3, hard=True)
+
+    def osd_set_main_menu_cursor():
+        config.mouse_displayable = MouseDisplayable(osd_gui_path + 'misc/osd_cursor.png', 0, 0)
+
+    osd_set_main_menu_cursor_curried = renpy.curry(osd_set_main_menu_cursor)
+
+    def osd_set_timeofday_cursor():
+        global osd_set_timeofday_cursor_var
+
+        if osd_set_timeofday_cursor_var:
+            config.mouse_displayable = MouseDisplayable(osd_gui_path + 'dialogue_box/' + persistent.timeofday + '/cursor.png', 0, 0)
+
+    osd_set_timeofday_cursor_curried = renpy.curry(osd_set_timeofday_cursor)
+
+    def osd_set_null_cursor():
+        config.mouse_displayable = MouseDisplayable(osd_gui_path + 'misc/osd_none.png', 0, 0)
+
+    osd_set_null_cursor_curried = renpy.curry(osd_set_null_cursor)
 
     class OsdDust(renpy.Displayable, NoRollback):   
         def __init__(self, particle):
@@ -297,17 +315,14 @@ init python:
 init:
     $ osd_titles = "Большое спасибо за прохождение этого небольшого мода!\n И это больше, чем просто вежливость.\n\n Вся наша команда трудилась, спорила в диалогах и перебрасывалась картинками, чтобы в конце концов подарить вам своеобразную и яркую историю.\n\n И, если это так, то своей цели мы достигли. А если нет, то отпишите нам в комментариях, что именно вам не понравилось и как бы ВЫ сделали этот мод лучше.\n\n Здесь все работают за чашку чая, которую они покупают себе сами, так что ваши комментарии «Хороший мод, жду нового!» - всё, что у нас есть. Но и про конструктивную критику не забывайте.\n\n Над модом работали:\n Дима Мамед - автор идеи, сценарист, код.\n\n Андрей Катаев - основой код, дизайн интерфейса.\n\n Александр Ларин - ответственный за графическую составляющую.\n\n Рина Анисимова - спрайты Халла и Ниточника.\n\n Ева Миронова - помощь с текстом.\n\n Отдельная благодарность:\n By Vensedor - 800 Р.\n\n Tom Anderson - 300 Р.\n\n Александр Милютин - 300 Р.\n\n Игорь Шарапов - 250 Р.\n\n Юрий Борисов - 200 Р.\n\n Егор Быстров - 68 Р.\n\n Иван Киселев - 50 Р.\n\n Gamzaly Yaraliev - 45 Р.\n\n Владимир Иванов - 40 Р.\n\n Данила Люлин - 35 Р.\n\n Валерий Хакимов - 25 Р.\n\n Саня Гуляев - 25 Р.\n\n Даниил Тихонов - 10 Р.\n\n Евгений Портов - 10 Р.\n\n Так или иначе, спасибо за уделённое нам время! Это далеко не последняя наша работа. Нашей команде еще есть чем вас удивить. С уважением, Zero Impact."
 
-    image osd_titles_style = ParameterizedText(style = "osd_titles_style", size = 40, xalign = 0.5)
+    $ osd_set_timeofday_cursor_var = False
+
+    image osd_blank_skip = renpy.display.behavior.ImageButton(Null(1920, 1080), Null(1920, 1080), clicked=[Jump('osd_after_intro')])
+
+    image osd_titles_style = ParameterizedText(style="osd_titles_style", size = 40, xalign = 0.5)
 
     image osd_loading_text = Text("Загрузка", size = 65, font = "osd/images/gui/fonts/gothic.ttf")
 
-    # $ osd_screens_list = [
-    #     "osd_main_menu", "osd_preferences_main_menu", "osd_load_main_menu", "osd_achievements", "osd_quit_main_menu", "osd_preferences", 
-    #     "osd_save", "osd_load", "osd_say", "osd_nvl", "osd_game_menu_selector", "osd_quit", "osd_yesno_prompt", "osd_text_history", "osd_choice", "osd_help", "osd_fight_with_nit", 
-    #     "osd_fight_ahead2", "osd_fight_parallax2", "osd_bar1", "osd_bar2", "osd_titles_overlay"
-    # ]
-
-    # $ osd_folders_list = ["osd/images/bg*.*", "osd/images/sprites*.*"]
     $ osd_lamp_anim_frequency = renpy.random.randint(1, 5)
 
     $ osd_main_menu_var = True

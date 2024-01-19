@@ -67,13 +67,6 @@ screen osd_main_menu():
             xalign 0.5
             ypos 415
             action [SetVariable("osd_main_menu_var", False), ShowMenu("osd_load_main_menu")]
-            
-        textbutton "[osd_preferences_text]" at osd_buttons_atl():
-            style "osd_main_menu"
-            text_style "osd_main_menu"
-            xalign 0.5
-            ypos 662
-            action [SetVariable("osd_main_menu_var", False), ShowMenu("osd_preferences_main_menu")]
 
         textbutton "[osd_extra_text]" at osd_buttons_atl():
             style "osd_main_menu"
@@ -81,6 +74,13 @@ screen osd_main_menu():
             xalign 0.5
             ypos 538
             action [SetVariable("osd_main_menu_var", False), ShowMenu("osd_extra")]
+            
+        textbutton "[osd_preferences_text]" at osd_buttons_atl():
+            style "osd_main_menu"
+            text_style "osd_main_menu"
+            xalign 0.5
+            ypos 662
+            action [SetVariable("osd_main_menu_var", False), ShowMenu("osd_preferences_main_menu")]
                 
         textbutton ["Выход"] at osd_buttons_atl():
             style "osd_main_menu"
@@ -153,7 +153,6 @@ screen osd_preferences_main_menu():
         textbutton "[osd_display_preferences_fullscreen_text]":
             style "osd_button_none"
             text_style "osd_settings_header_main_menu_preferences"
-            text_align 0.5
             xalign 0.15
             ypos 280
             action Preference("display", "fullscreen")
@@ -161,7 +160,6 @@ screen osd_preferences_main_menu():
         textbutton "[osd_display_preferences_window_text]":
             style "osd_button_none"
             text_style "osd_settings_header_main_menu_preferences"
-            text_align 0.5
             xalign 0.8
             ypos 280
 
@@ -182,16 +180,14 @@ screen osd_preferences_main_menu():
         textbutton "[osd_font_size_preferences_small_text]":
             style "osd_button_none"
             text_style "osd_settings_header_main_menu_preferences"
-            text_align 0.5
-            xalign 0.175
+            xalign 0.15
             ypos 440
             action SetField(persistent, "font_size", "small")
                 
         textbutton "[osd_font_size_preferences_large_text]":
             style "osd_button_none"
             text_style "osd_settings_header_main_menu_preferences"
-            text_align 0.5
-            xalign 0.82
+            xalign 0.8
             ypos 440
             action SetField(persistent, "font_size", "large")
                 
@@ -205,7 +201,6 @@ screen osd_preferences_main_menu():
             textbutton "[osd_skip_preferences_seen_text]":
                 style "osd_button_none"
                 text_style "osd_settings_header_main_menu_preferences"
-                text_align 0.5
                 xalign 0.15
                 ypos 600
                 action Preference("skip", "seen")
@@ -213,8 +208,7 @@ screen osd_preferences_main_menu():
             textbutton "[osd_skip_preferences_all_text]":
                 style "osd_button_none"
                 text_style "osd_settings_header_main_menu_preferences"
-                text_align 0.5
-                xalign 0.83
+                xalign 0.8
                 ypos 600
                 action Preference("skip", "all")
                             
@@ -222,7 +216,6 @@ screen osd_preferences_main_menu():
             textbutton "[osd_skip_preferences_seen_text]":
                 style "osd_button_none"
                 text_style "osd_settings_header_main_menu_preferences"
-                text_align 0.5
                 xalign 0.15
                 ypos 600
                 action Preference("skip", "seen")
@@ -230,7 +223,6 @@ screen osd_preferences_main_menu():
             textbutton "[osd_skip_preferences_all_text]":
                 style "osd_button_none"
                 text_style "osd_settings_header_main_menu_preferences"
-                text_align 0.5
                 xalign 0.83
                 ypos 600
                 action Preference("skip", "all")    
@@ -287,7 +279,7 @@ screen osd_load_main_menu():
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.5
             ypos 970
-            action (osd_FunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm = False))
+            action (OsdFunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm = False))
                  
         textbutton "[osd_delete_text]":
             style "osd_log_button" 
@@ -343,22 +335,22 @@ screen osd_extra():
         textbutton ["Музыка"]:
             style "osd_log_button" 
             text_style "osd_settings_link_main_menu_preferences" 
-            xalign 0.1
-            ypos 500
+            xalign 0.5
+            yalign 0.3
             action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_music_room")]
 
-        textbutton ["Фоны"]:
+        textbutton ["Галерея"]:
             style "osd_log_button" 
             text_style "osd_settings_link_main_menu_preferences" 
-            xalign 0.3
-            ypos 500
+            xalign 0.5
+            yalign 0.5
             action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_background_gallery")]
 
         textbutton ["Достижения"]:
             style "osd_log_button" 
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.5
-            ypos 500
+            yalign 0.7
             action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_achievements")]
 
         textbutton "[osd_return_text]":
@@ -367,9 +359,6 @@ screen osd_extra():
             xalign 0.1
             ypos 970
             action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_main_menu")]
-            
-    else:
-        pass
 
 screen osd_music_room():
     tag menu
@@ -693,7 +682,7 @@ screen osd_save():
             text_style "osd_settings_link"
             yalign 0.92 
             xalign 0.5 
-            action (osd_FunctionCallback(osd_on_save_callback,selected_slot), FileSave(selected_slot))
+            action (OsdFunctionCallback(osd_on_save_callback,selected_slot), FileSave(selected_slot))
 
         textbutton "[osd_delete_text]": 
             style "osd_log_button" 
@@ -742,7 +731,7 @@ screen osd_load():
             text_style "osd_settings_link" 
             yalign 0.92 
             xalign 0.5 
-            action (osd_FunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm = False))
+            action (OsdFunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm = False))
         
         textbutton "[osd_delete_text]": 
             style "osd_log_button" 

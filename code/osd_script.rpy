@@ -1,5 +1,5 @@
 init python:
-    class osd_FunctionCallback(Action):
+    class OsdFunctionCallback(Action):
         def __init__(self,function, *arguments):
             self.function = function
             self.arguments = arguments
@@ -41,8 +41,7 @@ init python:
         layout.LOADING = "Потерять несохраненые данные?"
 
         renpy.free_memory()
-        config.image_cache_size_mb = 500
-        config.mouse = {"default": [("osd/images/gui/misc/osd_cursor.png", 0, 0)]}
+        config.overlay_functions.append(osd_set_timeofday_cursor)
         config.main_menu_music = osd_god_is_an_astronaut_all_is_violent_all_is_bright
         config.linear_saves_page_size = None
         persistent._file_page = "osd_FilePage_1"
@@ -58,11 +57,9 @@ init python:
         layout.LOADING = "Загрузка приведёт к потере несохранённых данных.\nВы уверены, что хотите сделать это?"
 
         renpy.free_memory()
-        config.image_cache_size_mb = 300
-        osd_stop_predict_screens()
-        osd_stop_predict_resources()
+        config.overlay_functions.remove(osd_set_timeofday_cursor)
 
-        config.mouse = {"default": [("images/misc/mouse/1.png", 0, 0)]}
+        config.mouse_displayable = MouseDisplayable('images/misc/mouse/1.png', 0, 0)
         config.main_menu_music = "sound/music/blow_with_the_fires.ogg"
 
         renpy.block_rollback()

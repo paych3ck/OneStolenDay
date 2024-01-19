@@ -1,11 +1,11 @@
 label osd_main_scenario:
     $ osd_set_mode_nvl()
     stop music fadeout 3
-    $ renpy.pause(2, hard = True)
-    $ persistent.timeofday = "night"
+    $ renpy.pause(2, hard=True)
     $ persistent.sprite_time = "night"  
     $ persistent.timeofday = "prologue"
     scene anim prolog_1 with fade3
+    $ osd_set_timeofday_cursor_var = True
     osd_narrator "Когда-то всё было по-другому. Вокруг был не лагерь, не куклы и не пионеры. {w}Или так хотят верить." with dissolve
     osd_narrator "Как в библиотеке есть книги о загадочных замках и далёких планетах, Пионерам хочется верить, что существовала жизнь, где был дом, были ''близкие'', а с неба падала белая пыль."
     osd_narrator "Нет ничего страшного в фантазиях. Плохо, когда в фантазии начинаешь верить."
@@ -57,10 +57,10 @@ label osd_main_scenario:
     osd_narrator "Вот я и добрался до столовой."
     osd_narrator "Ах да, не тот лагерь."
     $ osd_portal_using("bg ext_dining_hall_near_night", "bg ext_dining_hall_near_night")
-    osd_th "Здесь уже можно найти компанию."
+    osd_th "Здесь уже можно найти компанию." with dissolve
     $ _window_hide(dissolve)
     play sound sfx_open_door_1
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     stop ambience fadeout 2
     scene bg osd_int_dining_hall_damaged with dissolve
     play ambience osd_voices fadein 2
@@ -122,12 +122,12 @@ label osd_main_scenario:
     osd_nit "Как и ты, Халл, как и ты. {w}Безуспешно."
     osd_hall "Спасибо, я старался. {w}Твой ход."
     scene bg black with Dissolve(1)
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg osd_int_dining_hall_damaged
     show osd_hall pos2 sad_burns at left
     show osd_nit bulging3_l at right
     with Dissolve(1)
-    osd_hall "Не мой сегодня день."
+    osd_hall "Не мой сегодня день." with dissolve
     osd_third "У тебя еще вечность впереди."
     osd_hall "Вот ответь мне на простой вопрос: как простые глюки в моей голове могут обыграть меня в карты? По идее я же здесь заправляю правилами, нет?"
     osd_nit "Не буду говорить, что мы — реальны. Это же бред, верно?"
@@ -148,7 +148,7 @@ label osd_main_scenario:
     osd_nit "С этим я и не спорил, Третий. {w}Дайте мне знать, если у вас получится. Меня в своё время это озадачило."
     osd_hall "Ну как скажешь. {w}Только ходи давай."
     scene bg black with Dissolve(1)
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg osd_int_dining_hall_damaged
     show osd_hall pos2 smile3_burns at left
     show osd_nit bulging3_l at right
@@ -242,7 +242,7 @@ label osd_main_scenario:
     show osd_pi blood close at center with dspr
     osd_narrator "Нож вошел прямо под сердце."
     show osd_pi blood close at osd_moveinbottom   
-    $ renpy.pause(0.8, hard = True)
+    $ renpy.pause(0.8, hard=True)
     play sound sfx_bodyfall_1
     osd_narrator "Мой гость мешком повалился на пол."  
     osd_narrator "Кровь почти не хлестала. Удар был выверенным."
@@ -303,7 +303,7 @@ label osd_main_scenario:
     hide osd_nit with dissolve
     show osd_hall pos2 smile3_burns:
         linear 1.0 xalign 0.5
-    $ renpy.pause(1, hard = True)
+    $ renpy.pause(1, hard=True)
     osd_narrator "Ниточник, задвинув за собой стул, направился к крупной группе Пионеров, которая, похоже, уже давно его дожидалась."
     osd_narrator "Халл резво собрал карты и повернулся ко мне."
     osd_hall "Эй, Третий, не хочешь на кое-что взглянуть?"
@@ -318,7 +318,7 @@ label osd_main_scenario:
     stop music fadeout 2
     stop ambience fadeout 2
     play sound sfx_open_door_strong
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     play ambience ambience_camp_center_night fadein 2
     scene bg ext_dining_hall_near_night
     show osd_hall pos2 smile3_burns at center
@@ -349,13 +349,13 @@ label osd_main_scenario:
     osd_hall "В моём лагере."
     osd_third "Тогда буду ждать тебя там."
     hide osd_hall with dissolve
-    $ renpy.pause(0.5, hard = True)
+    $ renpy.pause(0.5, hard=True)
     $ osd_portal_using("bg ext_clubs_night", "bg ext_clubs_night")
     #play sound osd_portal_use
     #scene bg ext_clubs_night with flash
-    osd_narrator "Он хотел что-то сказать мне вдогонку, но я перешёл слишком быстро."
+    osd_narrator "Он хотел что-то сказать мне вдогонку, но я перешёл слишком быстро." with dissolve
     osd_narrator "Опёрся на перила и принялся ждать, пока Халл меня догонит."
-    $ renpy.pause(6, hard = True)
+    $ renpy.pause(6, hard=True)
     play sound osd_portal_use
     show osd_hall pos2 sad_burns at center with flash
     osd_narrator "Появился он только через шесть секунд. {w}Относительно хороший результат. Лучший в лагере, помимо меня — четыре."
@@ -368,7 +368,7 @@ label osd_main_scenario:
     osd_hall "Во-о-от, так бы сразу."
     stop ambience fadeout 2
     play sound sfx_open_door_clubs
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg osd_int_clubs_male_night_light
     show osd_dust as osd_dust1
     show osd_hall pos2 smile3_burns at fleft
@@ -474,7 +474,7 @@ label osd_main_scenario:
     stop music fadeout 5
     play sound sfx_far_steps
     play sound sfx_shurik_opens_door
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg ext_clubs_night with dissolve
     play ambience ambience_camp_center_night fadein 2
     osd_narrator "Последнюю фразу он уже не слышал — я был на улице."
@@ -489,7 +489,7 @@ label osd_main_scenario:
     osd_narrator "Здание было заперто на ключ. Но заднее окно — открыто настежь."
     osd_th "Святая беспечность. Такая защита отвадит только самых ленивых. Или самых недалёких."
     play sound sfx_open_door_1
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg int_aidpost_night with dissolve
     play ambience ambience_medstation_inside_night fadein 2
     osd_narrator "Забравшись внутрь, я уверенно начал собирать всё, что мне нужно."
@@ -498,9 +498,9 @@ label osd_main_scenario:
     stop ambience fadeout 2
     scene bg ext_aidpost_night with dissolve
     play ambience ambience_camp_center_night fadein 2
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg ext_square_night with dissolve
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     osd_narrator "Дальше по плану была столовая. На площади никого не было, но я всё равно шел в тени. Привычка."
     scene bg ext_dining_hall_away_night with dissolve
     osd_narrator "Обезболивающее пришлось сунуть в карман, а бинты - намотать на руку, чтобы залезть в окно."
@@ -548,7 +548,7 @@ label osd_main_scenario:
     show dv normal pioneer far with dissolve:
         xalign -1.0
         linear 3 xalign 2.0
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     hide dv with dissolve
     osd_narrator "Пришлось подождать в тени, прежде чем Алиса уйдет в столовую, из которой я только пришел."
     osd_narrator "Девушка наведывается туда каждый вечер, если мне не объявиться в лагере, спрятавшись от первой проверки Слави."
@@ -577,9 +577,9 @@ label osd_main_scenario:
     osd_narrator "Даже понятие смерти у многих больше не ассоциируется с понятием книг, не вызывает ни страха, ни эмпатии."
     osd_narrator "Мы больше всего похожи на такие себе «души», сколько бы смеха не вызывал у меня этот термин, которые свободно дрейфуют между оболочками."
     osd_narrator "«Душам» без глаз, наверное, однообразно. {w}Только мне ли говорить об однообразии?"
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     stop music fadeout 3
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     osd_nit_voice "Вот и ты."
     osd_narrator "За спиной раздался знакомый голос."
     scene bg ext_boathouse_night with dissolve
@@ -599,9 +599,9 @@ label osd_main_scenario:
     stop ambience fadeout 2
     scene bg ext_square_night with dissolve
     play ambience ambience_forest_night fadein 2
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg ext_path_night with dissolve
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     osd_narrator "С площади мы направились прямиком в лес. По той или иной причине большая часть Пионеров любила провести свободное время именно здесь."
     osd_narrator "Я бы сказал, что вероятность приблизительно три к одному в пользу груды деревьев."
     osd_third "Мы идем куда-то конкретно или?.."
@@ -939,7 +939,7 @@ label osd_fight_2:
     osd_narrator "Ориентироваться приходилось вслепую — глаза я закрыл, чтобы не попала пыль. Протирать их — слишком большая роскошь."
     play sound sfx_bus_window_hit
     scene bg osd_fireplace_anim with flash
-    $ renpy.pause(.5, hard = True)
+    $ renpy.pause(.5, hard=True)
     play sound osd_knife
     scene bg osd_fireplace_anim with flash_red
     osd_narrator "Глухой звук удара. {w}Резкая боль в районе локтя заставила резко разорвать дистанцию."
@@ -987,7 +987,7 @@ label osd_fight_arc:
     scene bg black with Dissolve(2)
     stop ambience fadeout 2 
     osd_nit "До вcтречи." 
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     $ renpy.block_rollback()
     jump osd_single_end
     
@@ -1010,7 +1010,7 @@ label osd_fight_straight:
     scene bg black with Dissolve(2) 
     stop sound_loop fadeout 2 
     stop ambience fadeout 2 
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     $ renpy.block_rollback()    
     jump osd_single_end
     
@@ -1033,7 +1033,7 @@ label osd_fight_self_parallax:
     stop sound_loop fadeout 2 
     stop ambience fadeout 2 
     $ osd_expl_death = True 
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     $ renpy.block_rollback()
     jump osd_single_end 
 
@@ -1056,10 +1056,10 @@ label osd_fight_projectile_parallax:
     osd_th "Поступил прямо противоположно себе. Даже в критической ситуации Ниточник не потерял контроль. Жаль, но именно на эту его черту я и сделал ставку, бросив камень левее." 
     osd_narrator "Сократив дистанцию, здоровой рукой выбил оружие." 
     osd_narrator "Слишком тяжелое. Не для меня. Удивительно, насколько ловко он обращался с этим штырём." 
-    $ renpy.pause(1, hard = True) 
+    $ renpy.pause(1, hard=True) 
     osd_narrator "Я отошел на безопасное расстояние. Оглядел труп." 
     osd_narrator "Грудь не вздымалась. Не дышит." 
-    $ renpy.pause(2, hard = True) 
+    $ renpy.pause(2, hard=True) 
     osd_narrator "Я подождал сорок четыре секунды. Он мог притвориться мертвым, если бы выжил." 
     osd_narrator "Не дышит." 
     osd_th "Что же, Ниточник. Даже с таким преимуществом ты проиграл. Смирись. Это полезно."
@@ -1121,7 +1121,7 @@ label osd_peace:
     stop sound_loop fadeout 2
     stop ambience fadeout 2
     hide osd_nit with dissolve
-    $ renpy.pause(0.5, hard = True)
+    $ renpy.pause(0.5, hard=True)
     $ osd_portal_using("bg osd_fireplace_anim", "bg osd_ext_music_club_night")
     # play sound osd_portal_use
     # scene bg osd_ext_music_club_night with flash
@@ -1148,7 +1148,7 @@ label osd_peace:
     osd_third "Станешь жалеть?"
     osd_nit "Жалеть?{w=0.5} Кого?{w=0.5} Самого себя? {w}Жизнь от этого проще не будет."
     osd_nit "Могу на зло лагерю остаться обитателем имиджбордов."
-    $ renpy.pause(1, hard = True)
+    $ renpy.pause(1, hard=True)
     scene bg osd_stars_anim with dissolve
     osd_narrator "Я взобрался на перила рядом с ним."
     osd_th "Звезды действительно близко, будто можно дотянуться рукой. Стоит попробовать как-то."
@@ -1183,7 +1183,7 @@ label osd_peace:
     osd_nit "Чего застыли? {w}Вперед!"
     osd_narrator "Пионеры начали по одному загружаться в транспорт. Большинство больше не обращало на меня внимания, потеряв интерес."
     osd_narrator "Только Халл, прежде чем скрыться за сиденьями, шутливо отдал мне честь." 
-    $ renpy.pause(1, hard = True)
+    $ renpy.pause(1, hard=True)
     scene bg ext_bus_night with dissolve
     osd_narrator "И вот снова остался только Ниточник и я."
     show osd_nit bulging3_l at center with dspr
@@ -1233,11 +1233,11 @@ label osd_peace:
     stop sound_loop fadeout 2
     scene bg black with Dissolve(2)
     $ renpy.block_rollback()
-    $ renpy.pause(5, hard = True)
+    $ renpy.pause(5, hard=True)
     $ persistent.timeofday = "sunset"
     $ persistent.sprite_time = "sunset"
     play music osd_academy_of_honor_guitar_cover fadein 4
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg osd_int_dining_hall_sunset
     show osd_hall pos2 smile at center
     with dissolve
@@ -1262,7 +1262,7 @@ label osd_peace:
     osd_hall "Точно, я и забыл. {w}Ну ничего, юбилеев много. Как-нибудь точно устроим театр!"
     osd_third "Обязательно."
     play sound sfx_open_door_1
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg ext_dining_hall_away_sunset with dissolve
     play ambience ambience_camp_center_evening fadein 2 
     osd_narrator "Я вышел из пыльного помещения."
@@ -1286,29 +1286,26 @@ label osd_peace:
 
         show screen osd_titles_overlay(_layer = "overlay")
         show osd_titles_style osd_titles at osd_titles_anim
-        $ renpy.pause(45, hard = True)   
+        $ renpy.pause(45, hard=True)   
         
         play sound sfx_achievement
         show osd_old_story with moveinright:
             pos (1535, 600)
                 
-        $ renpy.pause(4, hard = True)
+        $ renpy.pause(4, hard=True)
             
         hide osd_old_story with dissolve
-            
-    else:
-        pass
             
     scene bg black with Dissolve(2)
     stop ambience fadeout 2
     stop music fadeout 2
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     hide osd_titles_overlay
     return
 
 label osd_eternity_split_in_two_transit:
     $ renpy.block_rollback()
-    osd_narrator "У меня было желание задержаться чуть дольше.  {w}Даже жаль, что рука истекала так сильно."
+    osd_narrator "У меня было желание задержаться чуть дольше. {w}Даже жаль, что рука истекала так сильно."
     osd_narrator "От локтя тянулись ручьи крови, за спиной оставался след из небольших капель и целых луж."
     osd_narrator "С таким количеством движений ране не удалось стянуться, Хорошо, что в этой системе нет вирусов. Иначе выходом была бы только ампутация. {w}Лечить их по другому — слишком скучно."
     osd_narrator "Из оторваного рукава рубашки получился приемлемый жгут."
@@ -1322,7 +1319,7 @@ label osd_eternity_split_in_two_transit:
     osd_narrator "У здания никого не было, что неудивительно в это время суток этого дня недели."
     osd_narrator "Благо, окно я даже не прикрыл. И всё равно с одной рукой взобраться было не слишком просто."
     play sound sfx_open_door_1
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg int_aidpost_night with dissolve
     $ persistent.sprite_time = "day"
     play ambience ambience_medstation_inside_night fadein 2
@@ -1341,7 +1338,7 @@ label osd_eternity_split_in_two_transit:
     osd_narrator "Жжение заставило меня выпучить глаза."
     osd_narrator "Только усилие воли и сотни пережитых рассечений, ударов и переломов помешали закричать."
     osd_narrator "Глубокий вдох."
-    $ renpy.pause(1, hard = True)
+    $ renpy.pause(1, hard=True)
     osd_th "В медицинских энциклопедиях, которые лежат тут же, упоминались возможные смерти от болевого шока. {w}Но мне никогда не удавалось этого достичь. Перекиси для этого явно не хватит."
     osd_narrator "В том, как я пролил перекись и на себя, и на самоубийцу теперь виделась определённая доза иронии."
     osd_th "Если могу отвлекаться, то и не слишком все запущено."
@@ -1350,7 +1347,7 @@ label osd_eternity_split_in_two_transit:
     osd_th "Ну и кто на этот раз?"
     osd_third "Или заходи, или проваливай!"
     play sound sfx_open_door_1
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     osd_narrator "Через парадную дверь в здание вошла фигура."
     show osd_hall pos2 normal_burns at center with dissolve
     osd_third "А{w=0.2}.{w=0.2}.{w=0.2}.{w=0.2} Халл? {w}Ты здесь что забыл?"
@@ -1413,11 +1410,11 @@ label osd_eternity_split_in_two_transit:
     $ persistent.sprite_time = "night"
     scene bg ext_aidpost_night with dissolve
     play ambience ambience_camp_center_night fadein 2
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg ext_square_night with dissolve
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg ext_clubs_night with dissolve
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     stop ambience fadeout 2
     scene bg osd_ext_bus_pioneers with dissolve
     play ambience osd_voices fadein 2
@@ -1506,14 +1503,14 @@ label osd_eternity_split_in_two_transit:
             stop sound_loop fadeout 2
             stop ambience fadeout 2
             osd_narrator ".{w=1}.{w=1}.{w=1}"
-            $ renpy.pause(3, hard = True)
+            $ renpy.pause(3, hard=True)
             $ persistent.timeofday = "night"
             scene bg int_library_night2 with Dissolve(2)
             play music osd_haimin_mistakes fadein 4
             hide blink with dissolve
             play sound sfx_pat_shoulder_hard
             osd_narrator "В очередной раз перечитываемая книга закрылась в моих руках."
-            $ renpy.pause(1, hard = True)
+            $ renpy.pause(1, hard=True)
             osd_narrator "Мы в своих сменах. {w}Ничего не сработало."
             osd_narrator "С тех пор они пробовали каждый расклад, изолировали по очереди каждого Пионера, но результат не менялся."
             osd_narrator "Ниточник уже давно не выбирался из своего лагеря." 
@@ -1525,7 +1522,7 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Ничего не изменилось. {w}Ничего не должно было измениться."
             osd_narrator "Все эти сотни и тысячи циклов были и будут. {w}Их не сдвинуть, не расшатать. {w}Даже не поцарапать."
             play sound sfx_open_door_1
-            $ renpy.pause(2, hard = True)
+            $ renpy.pause(2, hard=True)
             scene bg ext_library_night with dissolve
             play ambience ambience_camp_center_night fadein 2
             osd_narrator "Жаль, что у них ушло так много времени чтобы просто понять это."
@@ -1540,23 +1537,20 @@ label osd_eternity_split_in_two_transit:
 
                 show screen osd_titles_overlay(_layer = "overlay")
                 show osd_titles_style osd_titles at osd_titles_anim
-                $ renpy.pause(45, hard = True)  
+                $ renpy.pause(45, hard=True)  
         
                 play sound sfx_achievement
                 show osd_as_before with moveinright:
                     pos (1535, 600)
                         
-                $ renpy.pause(4, hard = True)
+                $ renpy.pause(4, hard=True)
                     
                 hide osd_as_before with dissolve
-                    
-            else:
-                pass
                     
             scene bg black with Dissolve(2)
             stop ambience fadeout 2
             stop music fadeout 2
-            $ renpy.pause(3, hard = True)
+            $ renpy.pause(3, hard=True)
             hide osd_titles_overlay
             return
         
@@ -1582,7 +1576,7 @@ label osd_eternity_split_in_two_transit:
             show blink
             scene bg black with fade
             $ renpy.block_rollback()
-            $ renpy.pause(3, hard = True)
+            $ renpy.pause(3, hard=True)
             play music osd_socialism fadein 3
             $ persistent.timeofday = "prologue"
             #scene bg osd_lamp_anim_blurred with Dissolve(2)
@@ -1621,7 +1615,7 @@ label osd_eternity_split_in_two_transit:
                 
             osd_th "ДА ЗАТКНИТЕСЬ ВЫ ВСЕ!"
             osd_narrator "Мой мысленный крик заглушил все разговоры внутри черепа. Кажется, уж это они почувствовали."
-            $ renpy.pause(1, hard = True)
+            $ renpy.pause(1, hard=True)
             scene bg osd_lamp_anim with Dissolve(2)
             osd_narrator "С уходом давящей боли картинка начала прояснятся."
             osd_narrator "Я стоял прямо у стола, посреди квартиры."
@@ -1643,7 +1637,7 @@ label osd_eternity_split_in_two_transit:
             $ renpy.block_rollback()
             scene bg black with Dissolve(2)
             stop music fadeout 2
-            $ renpy.pause(3, hard = True)
+            $ renpy.pause(3, hard=True)
             show unblink
             $ persistent.timeofday = "day"
             $ persistent.sprite_time = "day"
@@ -1705,7 +1699,7 @@ label osd_eternity_split_in_two_transit:
             osd_nit "Пришлось идти в лагерь самому, а там... {w}Собственно, чего это я? Ты и сам можешь полюбоваться!"
             osd_narrator "Мы подошли к воротам и Ниточник торжественно их отворил."
             play sound sfx_open_metal_hatch
-            $ renpy.pause(2, hard = True)
+            $ renpy.pause(2, hard=True)
             scene bg osd_ext_camp_plain_sight with dissolve
             osd_nit "Забавно, правда? Надеюсь, тебе это кажется таким же смешным, как и мне."
             osd_narrator "Ничего. {w}Вообще ничего."
@@ -1770,13 +1764,13 @@ label osd_eternity_split_in_two_transit:
             osd_narrator ".{w=1}.{w=1}."
             play music osd_having_lived fadein 2
             scene bg osd_ext_sky with dissolve
-            $ renpy.pause(5, hard = True)
+            $ renpy.pause(5, hard=True)
             osd_narrator "Не уверен, сколько времени прошло с тех пор. {w}Может, час, а может неделя. {w}Не так просто определить время без солнца."
             osd_narrator "Я лежал недалеко от него в схожей позе."
             osd_narrator "Впрочем, так видно лишь небо. Возможно, Ниточник давно пошел к дороге или куда-то еще."
             show blink
             hide blink
-            $ renpy.pause(2, hard = True)
+            $ renpy.pause(2, hard=True)
             osd_nit "Третий? {w}Ты тут? У меня для тебя новость."
             osd_narrator "Настроения активно общаться у меня не появилось."
             osd_third "Хорошая и плохая?"
@@ -1824,23 +1818,20 @@ label osd_eternity_split_in_two_transit:
 
                 show screen osd_titles_overlay(_layer = "overlay")
                 show osd_titles_style osd_titles at osd_titles_anim
-                $ renpy.pause(45, hard = True)  
+                $ renpy.pause(45, hard=True)  
         
                 play sound sfx_achievement
                 show osd_our_world with moveinright:
                     pos (1535, 600)
                         
-                $ renpy.pause(4, hard = True)
+                $ renpy.pause(4, hard=True)
                     
                 hide osd_our_world with dissolve
-                    
-            else:
-                pass
                     
             scene bg black with Dissolve(2)
             stop ambience fadeout 2
             stop music fadeout 2
-            $ renpy.pause(3, hard = True)
+            $ renpy.pause(3, hard=True)
             hide osd_titles_overlay
             return
     
@@ -1853,7 +1844,7 @@ label osd_single_end:
     play sound osd_heart
     osd_narrator "Голова просто раскалывалась."
     
-    if osd_expl_death == True:
+    if osd_expl_death:
         osd_narrator "Не слишком удивительно. Игры Халла со взрывчаткой никогда ни к чему хорошему  не приводили. {w}Разве что редко жертвой был я."
         
     else:
@@ -1864,7 +1855,7 @@ label osd_single_end:
     play ambience ambience_ext_road_day fadein 1
     osd_narrator "Я терпеливо стал ждать, пока боль утихнет. Обычно это занимает секунд десять, но побочные эффекты могут и на всю смену остаться."
     osd_narrator "По мере спада стала чувствоваться и деревянность спины, будто я несколько десятков часов пролежал на доске."
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     osd_th "Вот, это больше похоже на посттравматику, которую я знаю, лагерь."
     osd_narrator "Худший период прошел. Боль еще чувствовалась, но ничего, что нельзя подавить."
     hide blink with dissolve
@@ -1881,7 +1872,7 @@ label osd_single_end:
     osd_narrator "С моей разлом открылся безупречно."
     osd_th "{i}Следующий тест{/i}."
     play sound osd_portal_use_cut
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     play sound osd_portal_use_cut
     osd_narrator "Я поочерёдно попытался открыть разлом в два других лагеря. {w}Результат тот же."
     play sound osd_portal_use_cut
@@ -1896,7 +1887,7 @@ label osd_single_end:
     osd_narrator "Просто смешно."
     osd_narrator "Я отодвинул левую створку ворот, чтобы исследовать сам лагерь."
     play sound sfx_open_metal_hatch
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     scene bg osd_ext_camp_plain_sight with dissolve
     play sound osd_heart
     osd_third "Пха-ха-ха-ха!"
@@ -1969,24 +1960,22 @@ label osd_single_end:
     osd_narrator "Пока что стоит просто успокоиться. Расслабиться. Отдохнуть. {i}Я этого заслуживаю.{/i}"
     $ persistent.timeofday = "sunset"
     scene bg ext_road_sunset with Dissolve(3)
-    $ renpy.pause(2, hard = True)
+    $ renpy.pause(2, hard=True)
     $ persistent.timeofday = "night"
     scene bg osd_ext_road_night_full with Dissolve(3)
-    $ renpy.pause(1, hard = True)
+    $ renpy.pause(1, hard=True)
     play music osd_the_ancients fadein 2
     osd_narrator "Будто дожидаясь, пока я это увижу, небо быстро погрузилось в закат, затем наступила звездная ночь."
     osd_th "Глупо, необъяснимо, но какая теперь разница?"
-    #stop ambience fadeout 2
     scene bg osd_ext_road_night_full:
         ypos -1080
-        linear 5 ypos 1000
+        linear 3 ypos 0
     play sound sfx_body_bump fadein 3
-    #scene bg osd_stars_anim with dissolve
     osd_narrator "Вдали мерцали холодные огоньки."   
-    $ renpy.pause(3, hard = True)   
+    $ renpy.pause(1.5, hard=True)
     scene bg black with Dissolve(1)
-    $ renpy.pause(2, hard = True)
-    scene bg osd_stars_anim with dissolve  
+    $ renpy.pause(0.5, hard=True)
+    scene bg osd_stars_anim with Dissolve(1)
     osd_narrator "Прошло немало времени с тех пор, когда я появился в этом новом лагере. Возможно день,{w=1} возможно два,{w=1} возможно тысяча."
     osd_narrator "Ночь никогда не уходит,{w=0.5} смена не перезапускается."
     osd_narrator "Мера времени — изменения. {w}Здесь их попросту нет."
@@ -2010,17 +1999,14 @@ label osd_single_end:
         show osd_perfect_gear with moveinright:
             pos (1535, 600)
                         
-        $ renpy.pause(4, hard = True)
+        $ renpy.pause(4, hard=True)
                     
         hide osd_perfect_gear with dissolve
-                    
-    else:
-        pass
                     
     scene bg black with Dissolve(2)
     stop ambience fadeout 2
     stop music fadeout 2
-    $ renpy.pause(3, hard = True)
+    $ renpy.pause(3, hard=True)
     hide osd_titles_overlay
     return
     
@@ -2077,7 +2063,7 @@ label osd_single_end:
             osd_narrator "Его голос звучал абсолютно безэмоционально."
             ##здесь должна быть ну безбожно грустная музыка, но пока у меня нет вариантов. //todo
             osd_nit "Тогда нам остаётся только наслаждаться этой бесконечностью."
-            $ renpy.pause(3, hard = True)
+            $ renpy.pause(3, hard=True)
             $ persistent.timeofday = "night"
             scene bg osd_ext_road_night_full with Dissolve(3)
             ##конец
