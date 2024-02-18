@@ -2,7 +2,7 @@ init python:
     osd_g = Gallery()
     osd_page = 0
     osd_g.transition = fade
-    osd_g.locked_button = "timeloop/images/gui/save_load/main_menu_part_one/save_load_button_idle.png"
+    osd_g.locked_button = "osd/images/gui/save_load/main_menu/thumbnail_idle.png"
     osd_g.navigation = False
 
     osd_rows = 4
@@ -13,8 +13,13 @@ init python:
     "osd_int_dining_hall_damaged", "osd_int_clubs_male_night_light", "osd_fireplace_5",
     "osd_ext_music_club_night", "osd_stars_1", "osd_ext_no_bus_pioneers",
     "osd_ext_bus_pioneers", "osd_int_bus_pioneers", "osd_int_dining_hall_sunset",
-    "osd_ext_camp_plain_sight", "osd_ext_camp_empty_field", "osd_ext_sky"
+    "osd_ext_camp_plain_sight", "osd_ext_camp_empty_field", "osd_ext_sky", 'osd_nit_third_fight'
     ]
+
+    for bg in osd_gallery_bg_list:
+        osd_g.button(bg)
+        osd_g.image(im.Crop("osd/images/bg/" + bg + ".png", (0, 0, 1920, 1080)))
+        osd_g.unlock("bg " + bg)
 
     osd_music_box = {
         "God Is An Astronaut — All Is Violent, All Is Bright": osd_god_is_an_astronaut_all_is_violent_all_is_bright,
@@ -160,7 +165,7 @@ screen osd_preferences_main_menu():
         textbutton "[osd_display_preferences_window_text]":
             style "osd_button_none"
             text_style "osd_settings_header_main_menu_preferences"
-            xalign 0.8
+            xalign 0.85
             ypos 280
 
             if not _preferences.fullscreen:
@@ -187,7 +192,7 @@ screen osd_preferences_main_menu():
         textbutton "[osd_font_size_preferences_large_text]":
             style "osd_button_none"
             text_style "osd_settings_header_main_menu_preferences"
-            xalign 0.8
+            xalign 0.85
             ypos 440
             action SetField(persistent, "font_size", "large")
                 
@@ -208,7 +213,7 @@ screen osd_preferences_main_menu():
             textbutton "[osd_skip_preferences_all_text]":
                 style "osd_button_none"
                 text_style "osd_settings_header_main_menu_preferences"
-                xalign 0.8
+                xalign 0.85
                 ypos 600
                 action Preference("skip", "all")
                             
@@ -223,7 +228,7 @@ screen osd_preferences_main_menu():
             textbutton "[osd_skip_preferences_all_text]":
                 style "osd_button_none"
                 text_style "osd_settings_header_main_menu_preferences"
-                xalign 0.83
+                xalign 0.85
                 ypos 600
                 action Preference("skip", "all")    
             
@@ -285,7 +290,7 @@ screen osd_load_main_menu():
             style "osd_log_button" 
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.9
-            ypos 975
+            ypos 970
             action FileDelete(selected_slot, confirm = False)
             
         grid 4 3:
@@ -337,21 +342,21 @@ screen osd_extra():
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.5
             yalign 0.3
-            action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_music_room")]
+            action [Hide("osd_extra"), ShowMenu("osd_music_room")]
 
         textbutton ["Галерея"]:
             style "osd_log_button" 
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.5
             yalign 0.5
-            action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_background_gallery")]
+            action [Hide("osd_extra"), ShowMenu("osd_background_gallery")]
 
         textbutton ["Достижения"]:
             style "osd_log_button" 
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.5
             yalign 0.7
-            action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_achievements")]
+            action [Hide("osd_extra"), ShowMenu("osd_achievements")]
 
         textbutton "[osd_return_text]":
             style "osd_log_button" 
@@ -360,62 +365,168 @@ screen osd_extra():
             ypos 970
             action [SetVariable("osd_main_menu_var", True), Hide("osd_extra"), ShowMenu("osd_main_menu")]
 
-screen osd_music_room():
-    tag menu
+screen osd_achievements():
     modal True
 
-    frame background "timeloop_part_one_main_menu":
-        textbutton "[osd_return_text]":
-            style "log_button"
-            text_style "settings_link"
-            xalign 0.1
-            ypos 960
-            action Return()
+    key "K_F1":
+        action NullAction()
+    
+    if not osd_main_menu_var: 
+        add "osd_main_menu_frame"
+        
+        text "Достижения":
+            font osd_link_font
+            size 70
+            xalign 0.5
+            ypos 33
+            antialias True
+            kerning 2
 
-        hbox xalign 0.5 yalign 0.06:
-            text "{font=[gotham_pro_medium]}Музыка{/font}": 
-                yalign 0.5
+        add osd_gui_path + "achievements/frame.png" xpos 1105 ypos 160
 
-        side "c b r":
-            area (0.23, 0.15, 0.61, 0.75)
+        if persistent.osd_achievements["osd_old_story"]:
+            add "osd_old_story" xalign 0.75 yalign 0.2
 
-            viewport:
-                id "osd_music_box"
-                draggable True
-                mousewheel True
-                scrollbars None
+        else:
+            add "osd_locked" xalign 0.75 yalign 0.2
+
+        if persistent.osd_achievements["osd_our_world"]:
+            add "osd_our_world" xalign 0.75 yalign 0.35
+
+        else:
+            add "osd_locked" xalign 0.75 yalign 0.35
+
+        if persistent.osd_achievements["osd_perfect_gear"]:
+            add "osd_perfect_gear" xalign 0.75 yalign 0.5
+
+        else:
+            add "osd_locked" xalign 0.75 yalign 0.5
+
+        if persistent.osd_achievements["osd_as_before"]:
+            add "osd_as_before" xalign 0.75 yalign 0.65
+
+        else:
+            add "osd_locked" xalign 0.75 yalign 0.65
                 
-                grid 1 len(osd_music_box):
-                    for name, track in sorted(osd_music_box.iteritems()):
-                        textbutton name:
-                            style "log_button"
-                            text_style "music_link"
-                            xalign 0.5
-                            action osd_mr.Play(track)
-                            ##text_font "tl/menu/fonts/Morpheus.ttf"
+        textbutton "[osd_return_text]":
+            style "osd_log_button" 
+            text_style "osd_settings_link_main_menu_preferences" 
+            xalign 0.1
+            ypos 970
+            action [Hide('osd_achievements'), ShowMenu('osd_extra')]
 
-            ##$ vbar_null = Frame("tl/gui/mus_gal/divider.png", 0, 0)
-            $ vbar_null = Frame("images/misc/none.png", 0, 0)
+screen osd_background_gallery():
+    modal True
 
-            bar:
-                value XScrollValue("osd_music_box")
-                left_bar "images/misc/none.png"
-                right_bar "images/misc/none.png"
-                thumb "images/misc/none.png"
-                hover_thumb "images/misc/none.png"
+    if not osd_main_menu_var:
+        add "osd_main_menu_frame"
 
-            vbar:
-                value YScrollValue("osd_music_box")
-                bottom_bar vbar_null
-                top_bar vbar_null
-                ##thumb "tl/gui/mus_gal/polzynok.png"
-                thumb "images/misc/none.png"
-                #ymaximum 1920
-                xmaximum 52
-                #thumb_offset 104
-                #ypos -0.55
+        $ osd_gallery_table = osd_gallery_bg_list
 
-    on "replaced" action Play("music", osd_god_is_an_astronaut_all_is_violent_all_is_bright)
+        $ osd_len_table = len(osd_gallery_bg_list)
+
+        text "Галерея":
+            font osd_link_font
+            size 70
+            xalign 0.5
+            ypos 33
+            antialias True
+            kerning 2
+
+        textbutton "[osd_return_text]":
+            style "osd_log_button" 
+            text_style "osd_settings_link_main_menu_preferences" 
+            xalign 0.1
+            ypos 970
+            action [Hide('osd_background_gallery'), ShowMenu('osd_extra')]
+
+        grid osd_rows osd_cols xpos 0.09 ypos 0.18:
+            $ osd_bg_displayed = 0
+            $ osd_next_page = osd_page + 1
+
+            if osd_next_page > int(osd_len_table / osd_cells):
+                $ osd_next_page = 0
+
+            for n in range(osd_len_table):
+                if n < (osd_page + 1) * osd_cells and n >= osd_page * osd_cells:
+                    $ _osd_t = im.Crop("osd/images/bg/" + osd_gallery_table[n] + ".png", (0, 0, 1920, 1080))
+                            
+                    $ _osd_img_scaled = im.Scale(_osd_t, 320, 180)
+
+                    $ osd_img = im.Composite((336, 196), (8, 8), im.Alpha(_osd_img_scaled, 0.9), (0, 0), im.Image(osd_gui_path + "/save_load/main_menu/thumbnail_idle.png"))
+                    $ osd_imgh = im.Composite((336, 196), (8, 8), _osd_img_scaled, (0, 0), im.Image(osd_gui_path + "/save_load/main_menu/thumbnail_hover.png"))
+
+                    add osd_g.make_button(osd_gallery_table[n], get_image("gui/gallery/blank.png"), None, osd_imgh, osd_img , style = "blank_button", bottom_margin = 50, right_margin = 50)
+
+                    $ osd_bg_displayed += 1
+
+                    if n + 1 == osd_len_table:
+                        $ osd_next_page = 0
+
+            for j in range(0, osd_cells - osd_bg_displayed):
+                null
+
+        if osd_page != 0:
+            imagebutton:
+                auto 'osd_gallery_previous_%s'
+                yalign 0.5 
+                xalign 0.04 
+                action [SetVariable("osd_page", osd_page - 1), ShowMenu("osd_background_gallery")]
+
+        if osd_page != int(osd_page_counter(osd_len_table, osd_cells)) - 1:
+            imagebutton: 
+                auto 'osd_gallery_next_%s'
+                yalign 0.5 
+                xalign 0.96 
+                action [SetVariable("osd_page", osd_next_page), ShowMenu("osd_background_gallery")]
+
+screen osd_music_room():
+    modal True
+
+    if not osd_main_menu_var: 
+        frame background "osd_main_menu_frame":
+            side "c r":
+                area (0.15, 0.22, 0.8, 0.73)
+
+                viewport:
+                    id "osd_music_box"
+                    draggable True
+                    mousewheel True
+                    scrollbars None
+                    
+                    grid 1 len(osd_music_box):
+                        for name, track in sorted(osd_music_box.iteritems()):
+                            textbutton name:
+                                style "osd_button_none"
+                                text_style "music_link"
+                                # style "osd_button_none"
+                                # text_style "osd_settings_header_main_menu_preferences"
+                                xalign 0.5
+                                action osd_mr.Play(track)
+
+                vbar:
+                    value YScrollValue("osd_music_box")
+                    bottom_bar 'osd_main_menu_vbar_null'
+                    top_bar 'osd_main_menu_vbar_full'
+                    thumb "images/misc/none.png"
+                    xmaximum 52
+
+        text "Музыка":
+            font osd_link_font
+            size 70
+            xalign 0.5
+            ypos 33
+            antialias True
+            kerning 2
+
+        textbutton "[osd_return_text]":
+            style "osd_log_button" 
+            text_style "osd_settings_link_main_menu_preferences" 
+            xalign 0.1
+            ypos 970
+            action [Hide('osd_music_room'), ShowMenu('osd_extra')]
+
+        on "replaced" action Play("music", osd_god_is_an_astronaut_all_is_violent_all_is_bright)
         
 screen osd_preferences():
     tag menu
@@ -763,6 +874,30 @@ screen osd_say(what, who):
             add osd_gui_path + "dialogue_box/" + persistent.timeofday + "/dialogue_box_large.png" xpos 174 ypos 866
 
             imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday + '/hide_%s.png' 
+                xpos 1508 
+                ypos 883 
+                action HideInterface()
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday + "/save_%s.png"
+                xpos 1567
+                ypos 883
+                action ShowMenu('osd_save')
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday + "/menu_%s.png"
+                xpos 1625 
+                ypos 883 
+                action ShowMenu('osd_game_menu_selector')
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday + "/load_%s.png"
+                xpos 1682 
+                ypos 883 
+                action ShowMenu('osd_load')
+
+            imagebutton:
                 auto osd_gui_path + "dialogue_box/" + persistent.timeofday + "/backward_%s.png" 
                 xpos 38 
                 ypos 924 
@@ -800,6 +935,30 @@ screen osd_say(what, who):
 
         elif persistent.font_size == "small":
             add osd_gui_path + "dialogue_box/" + persistent.timeofday + "/dialogue_box.png" xpos 174 ypos 916
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday + "/hide_%s.png"
+                xpos 1508
+                ypos 933
+                action HideInterface()
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday+"/save_%s.png"
+                xpos 1567
+                ypos 933
+                action ShowMenu('osd_save')
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday+"/menu_%s.png"
+                xpos 1625
+                ypos 933
+                action ShowMenu('osd_game_menu_selector')
+
+            imagebutton:
+                auto osd_gui_path + 'dialogue_box/' + persistent.timeofday+"/load_%s.png"
+                xpos 1682
+                ypos 933
+                action ShowMenu('osd_load')
 
             imagebutton:
                 auto osd_gui_path + "dialogue_box/" + persistent.timeofday + "/backward_%s.png" 
@@ -916,7 +1075,7 @@ screen osd_game_menu_selector():
         imagemap:
             auto osd_gui_path + "quick_menu/" + persistent.timeofday + "/quick_menu_%s.png" xalign 0.5 yalign 0.5
 
-            hotspot (0, 83, 660, 65) focus_mask None clicked MainMenu(confirm = True)
+            hotspot (0, 83, 660, 65) focus_mask None clicked [yn_set_main_menu_cursor_curried(), MainMenu(confirm=False)]
 
             hotspot (0, 148, 660, 65) focus_mask None clicked ShowMenu("osd_save")
 
@@ -934,7 +1093,7 @@ screen osd_quit():
         timer 0.01 action Return()
 
     elif osd_lock_quit_game_main_menu_var:
-        timer 0.01 action Quit(confirm = False)
+        timer 0.01 action Quit(confirm=False)
 
     else:
         add osd_gui_path + "save_load/" + persistent.timeofday + "/load_bg.png"

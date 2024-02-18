@@ -121,16 +121,56 @@ init python:
 
     osd_reload_names()
 
+    def osd_page_counter(n, k):
+        l = float(n) / float(k)
+        
+        if l - int(l) > 0:
+            return int(l) + 1
+
+        else:
+            return l
+
+    if persistent.osd_achievements == None:
+        persistent.osd_achievements = {
+            "osd_old_story": False,
+            "osd_our_world": False,
+            "osd_perfect_gear": False,
+            'osd_as_before': False
+            }
+
+    def osd_get_achievement(achievement_name):
+        renpy.pause(1, hard=True)
+
+        if not persistent.osd_achievements[achievement_name]:
+            persistent.osd_achievements[achievement_name] = True
+            osd_show_titles()
+            renpy.play(sfx_achievement, channel='sound')
+            renpy.show(achievement_name, at_list=[osd_achievements_pos])
+            renpy.with_statement(moveinright)
+            renpy.pause(4, hard=True)
+            renpy.hide(achievement_name)
+            renpy.with_statement(dissolve)
+
+    def osd_show_titles():
+        renpy.show('osd_titles_frame')
+        renpy.with_statement(dissolve)
+        renpy.show_screen("osd_titles_overlay", _layer="overlay")
+        renpy.show("osd_titles_style osd_titles", at_list=[osd_titles_anim])
+        renpy.pause(43, hard=True)
+        renpy.hide('osd_titles_frame')
+        renpy.with_statement(dissolve)
+        renpy.hide_screen('osd_titles_overlay', layer="overlay")
+
     def osd_show_centered_text(text, transition = None):
-        renpy.show("text", what = Text(text, slow = True, style = style.osd_centered_text_style, xalign = 0.5, yalign = 0.5))
+        renpy.show("text", what=Text(text, slow=True, style=style.osd_centered_text_style, xalign=0.5, yalign=0.5))
         renpy.with_statement(transition)
         renpy.pause()
 
-    def osd_hide_centered_text(transition = None):
+    def osd_hide_centered_text(transition=None):
         renpy.hide("text")
         renpy.with_statement(transition)
 
-    def osd_frame_animation(image_name, frames_quantity, retention, loop, transition, start = 1, **properties):
+    def osd_frame_animation(image_name, frames_quantity, retention, loop, transition, start=1, **properties):
         if image_name:
             anim_args = []
             
@@ -145,7 +185,7 @@ init python:
         return None
 
     def osd_heartbeat_animation(image_name, power, zoom2):
-        renpy.show(image_name, at_list = [osd_heartbeat_anim(image_name, power, zoom2)], tag = image_name + "_2")
+        renpy.show(image_name, at_list=[osd_heartbeat_anim(image_name, power, zoom2)], tag=image_name + "_2")
         
     def osd_stop_skipping():
         renpy.config.skipping = None
@@ -164,14 +204,6 @@ init python:
             osd_lock_quit = False
             osd_lock_quick_menu = False
             config.allow_skipping = True
-
-    def osd_show_titles():
-        renpy.show("osd_titles_frame")
-        renpy.show_screen("osd_titles_overlay", _layer = "overlay")
-        renpy.show("osd_titles_style osd_titles", at_list = [osd_titles_anim])
-        renpy.pause(46, hard = True)
-        renpy.show("osd_titles_logo", at_list = [truecenter])
-        renpy.pause(3, hard = True)
 
     def osd_portal_using(before_portal_use_bg, after_portal_use_bg):
         renpy.play(osd_portal_use, channel="sound")
@@ -331,7 +363,7 @@ init:
     $ osd_lock_quit = False
     $ osd_lock_quick_menu = False
 
-    $ osd_portal_use_transition = ImageDissolve("osd/images/gui/misc/transition2.png", 0.3, 16)
+    $ osd_portal_use_transition = ImageDissolve("osd/images/gui/misc/osd_transition2.png", 0.3, 16)
 
     image osd_main_menu_atl:
         "osd_sky_day" with Dissolve(4)
@@ -369,21 +401,6 @@ init:
     $ osd_quest3 = 0
     $ osd_quest4 = 0
 
-    #if persistent.osd_achievements_unlocked == None:
-    $ persistent.osd_achievements_unlocked = False
-
-    #if persistent.osd_old_story == None:
-    $ persistent.osd_old_story = False
-
-    #if persistent.osd_our_world == None:
-    $ persistent.osd_our_world = False
-
-    #if persistent.osd_perfect_gear == None:
-    $ persistent.osd_perfect_gear = False
-
-    #if persistent.osd_as_before == None:
-    $ persistent.osd_as_before = False
-
     image silhouette osd_far = im.MatrixColor("osd/images/sprites/pi/far/osd_pi normal far.png", im.matrix.tint(0, 0, 0))
 
     transform osd_buttons_atl():
@@ -415,6 +432,10 @@ init:
             rotate 0
             linear l rotate 360
             repeat
+
+    transform osd_achievements_pos():
+        xpos 1535
+        ypos 600
 
     transform osd_loading_text_pos():
         xalign 0.5 ypos 855

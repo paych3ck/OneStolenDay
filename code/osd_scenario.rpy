@@ -5,6 +5,7 @@ label osd_main_scenario:
     $ persistent.sprite_time = "night"  
     $ persistent.timeofday = "prologue"
     scene anim prolog_1 with fade3
+    play ambience ambience_catacombs fadein 3
     $ osd_set_timeofday_cursor_var = True
     osd_narrator "Когда-то всё было по-другому. Вокруг был не лагерь, не куклы и не пионеры. {w}Или так хотят верить." with dissolve
     osd_narrator "Как в библиотеке есть книги о загадочных замках и далёких планетах, Пионерам хочется верить, что существовала жизнь, где был дом, были ''близкие'', а с неба падала белая пыль."
@@ -13,6 +14,7 @@ label osd_main_scenario:
     osd_narrator "И верить, и лелеять надежду ни на что."
     osd_narrator "Пионеры - мастера занять себя пустой тратой времени."
     osd_narrator "А мне хотя бы есть на что посмотреть."
+    stop ambience fadeout 2
     scene bg black with Dissolve(2)
     $ persistent.timeofday = "night"
     $ persistent.sprite_time = "night"
@@ -1278,30 +1280,13 @@ label osd_peace:
     osd_narrator "Стала такой, какой и должна была быть."
     osd_narrator "Так, неделя за неделей, уходят в никуда их дни."
     osd_narrator "Их {w=0.6}украденные {w=0.7}дни."
-    $ _window_hide (dissolve)
-
-    if persistent.osd_old_story == False:
-        $ persistent.osd_old_story = True
-        $ persistent.osd_achievements_unlocked = True
-
-        show screen osd_titles_overlay(_layer = "overlay")
-        show osd_titles_style osd_titles at osd_titles_anim
-        $ renpy.pause(45, hard=True)   
-        
-        play sound sfx_achievement
-        show osd_old_story with moveinright:
-            pos (1535, 600)
-                
-        $ renpy.pause(4, hard=True)
-            
-        hide osd_old_story with dissolve
-            
+    $ osd_get_achievement('osd_old_story')             
     scene bg black with Dissolve(2)
     stop ambience fadeout 2
     stop music fadeout 2
     $ renpy.pause(3, hard=True)
-    hide osd_titles_overlay
-    return
+    $ osd_set_main_menu_cursor()
+    $ MainMenu(confirm=False)()
 
 label osd_eternity_split_in_two_transit:
     $ renpy.block_rollback()
@@ -1495,6 +1480,7 @@ label osd_eternity_split_in_two_transit:
             stop sound_loop fadeout 2
             stop ambience fadeout 2
             stop music fadeout 2
+            $ renpy.pause(0.5, hard=True)
             play sound_loop sfx_bus_interior_moving fadein 2
             osd_narrator "Мерный звук двигателя действовал усыпляюще."
             osd_narrator "От сна не убежать, сколько не пытайся..."
@@ -1529,30 +1515,13 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Всё так, как было всегда."
             osd_narrator "Что же, пора идти."
             osd_narrator "Сегодня у нас новая игра."
-            $ _window_hide (dissolve)
-
-            if persistent.osd_as_before == False:
-                $ persistent.osd_as_before = True
-                $ persistent.osd_achievements_unlocked = True
-
-                show screen osd_titles_overlay(_layer = "overlay")
-                show osd_titles_style osd_titles at osd_titles_anim
-                $ renpy.pause(45, hard=True)  
-        
-                play sound sfx_achievement
-                show osd_as_before with moveinright:
-                    pos (1535, 600)
-                        
-                $ renpy.pause(4, hard=True)
-                    
-                hide osd_as_before with dissolve
-                    
+            $ osd_get_achievement('osd_as_before')
             scene bg black with Dissolve(2)
             stop ambience fadeout 2
             stop music fadeout 2
             $ renpy.pause(3, hard=True)
-            hide osd_titles_overlay
-            return
+            $ osd_set_main_menu_cursor()
+            $ MainMenu(confirm=False)()
         
         "Промолчать":
             osd_narrator "А, неважно. {w}Не хочу в это вмешиваться. Пусть всё будет, как они хотят."
@@ -1810,30 +1779,13 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Похоже, у лагеря всё же был последний секрет в рукаве."
             osd_third "Видимо, теперь есть целая вечность, чтобы обсудить это."
             osd_third "В конце концов, у нас много общего."
-            $ _window_hide (dissolve)
-
-            if persistent.osd_our_world == False:
-                $ persistent.osd_our_world = True
-                $ persistent.osd_achievements_unlocked = True
-
-                show screen osd_titles_overlay(_layer = "overlay")
-                show osd_titles_style osd_titles at osd_titles_anim
-                $ renpy.pause(45, hard=True)  
-        
-                play sound sfx_achievement
-                show osd_our_world with moveinright:
-                    pos (1535, 600)
-                        
-                $ renpy.pause(4, hard=True)
-                    
-                hide osd_our_world with dissolve
-                    
+            $ osd_get_achievement('osd_our_world')                    
             scene bg black with Dissolve(2)
             stop ambience fadeout 2
             stop music fadeout 2
             $ renpy.pause(3, hard=True)
-            hide osd_titles_overlay
-            return
+            $ osd_set_main_menu_cursor()
+            $ MainMenu(confirm=False)()
     
 label osd_single_end:
     $ persistent.timeofday = "day"
@@ -1860,7 +1812,7 @@ label osd_single_end:
     osd_narrator "Худший период прошел. Боль еще чувствовалась, но ничего, что нельзя подавить."
     hide blink with dissolve
     scene bg ext_road_day with dissolve
-    osd_narrator "Раскрыв глаза я первым делом заметил небольшое отличие от обычных начал смен."
+    osd_narrator "Раскрыв глаза я первым делом заметил небольшое отличие от обычных начал смен." with dissolve
     osd_th "Поздравляю, Ниточник, автобус ты сломал."
     osd_narrator "В любом случае изменений он добился. А что с ним сейчас — не так важно."
     osd_narrator "Я попробовал открыть разлом в его лагерь."
@@ -1987,30 +1939,15 @@ label osd_single_end:
     osd_narrator "Мне найдется работа."
     osd_narrator "Осталось лишь самое простое."
     osd_narrator "Я.{w=1} Умею.{w=1} Ждать."
-    $ _window_hide(dissolve)
-
-    if persistent.osd_perfect_gear == False:
-        $ persistent.osd_perfect_gear = True
-        $ persistent.osd_achievements_unlocked = True
-
-        $ osd_show_titles()
-        
-        play sound sfx_achievement
-        show osd_perfect_gear with moveinright:
-            pos (1535, 600)
-                        
-        $ renpy.pause(4, hard=True)
-                    
-        hide osd_perfect_gear with dissolve
-                    
+    $ osd_get_achievement('osd_perfect_gear')               
     scene bg black with Dissolve(2)
     stop ambience fadeout 2
     stop music fadeout 2
     $ renpy.pause(3, hard=True)
-    hide osd_titles_overlay
-    return
+    $ osd_set_main_menu_cursor()
+    $ MainMenu(confirm=False)()
     
-    label osd_end_of_secrets_route:
+label osd_end_of_secrets_route:
     $ renpy.block_rollback()
     stop ambience fadeout 2
     ##God is an Astronaut - Beyond The Dying Light
