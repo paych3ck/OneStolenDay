@@ -10,8 +10,8 @@ init python:
     osd_cells  = osd_rows * osd_cols
 
     osd_gallery_bg_list = [
-    "osd_int_dining_hall_damaged", "osd_int_clubs_male_night_light", "osd_fireplace_5",
-    "osd_ext_music_club_night", "osd_stars_1", "osd_ext_no_bus_pioneers",
+    "osd_int_dining_hall_damaged", "osd_int_clubs_male_night_light",
+    "osd_ext_music_club_night", "osd_ext_no_bus_pioneers",
     "osd_ext_bus_pioneers", "osd_int_bus_pioneers", "osd_int_dining_hall_sunset",
     "osd_ext_camp_plain_sight", "osd_ext_camp_empty_field", "osd_ext_sky", 'osd_nit_third_fight'
     ]
@@ -382,31 +382,59 @@ screen osd_achievements():
             antialias True
             kerning 2
 
-        add osd_gui_path + "achievements/frame.png" xpos 1105 ypos 160
+        add osd_gui_path + "achievements/frame.png" xalign 0.5 ypos 160
 
         if persistent.osd_achievements["osd_old_story"]:
-            add "osd_old_story" xalign 0.75 yalign 0.2
+            add "osd_old_story_hover" xalign 0.5 yalign 0.2
+
+            imagebutton:
+                idle 'osd_old_story_idle'
+                xalign 0.5
+                yalign 0.2
+                at osd_buttons_transition
+                action ShowMenu('osd_achievement_description', achievement='osd_old_story')
 
         else:
-            add "osd_locked" xalign 0.75 yalign 0.2
+            add "osd_locked" xalign 0.5 yalign 0.2
 
         if persistent.osd_achievements["osd_our_world"]:
-            add "osd_our_world" xalign 0.75 yalign 0.35
+            add "osd_our_world_hover" xalign 0.5 yalign 0.35
+
+            imagebutton:
+                idle 'osd_our_world_idle'
+                xalign 0.5
+                yalign 0.35
+                at osd_buttons_transition
+                action ShowMenu('osd_achievement_description', achievement='osd_our_world')
 
         else:
-            add "osd_locked" xalign 0.75 yalign 0.35
+            add "osd_locked" xalign 0.5 yalign 0.35
 
         if persistent.osd_achievements["osd_perfect_gear"]:
-            add "osd_perfect_gear" xalign 0.75 yalign 0.5
+            add "osd_perfect_gear_hover" xalign 0.5 yalign 0.5
+
+            imagebutton:
+                idle 'osd_perfect_gear_idle'
+                xalign 0.5
+                yalign 0.5
+                at osd_buttons_transition
+                action ShowMenu('osd_achievement_description', achievement='osd_perfect_gear')
 
         else:
-            add "osd_locked" xalign 0.75 yalign 0.5
+            add "osd_locked" xalign 0.5 yalign 0.5
 
         if persistent.osd_achievements["osd_as_before"]:
-            add "osd_as_before" xalign 0.75 yalign 0.65
+            add "osd_as_before_hover" xalign 0.5 yalign 0.65
+
+            imagebutton:
+                idle 'osd_as_before_idle'
+                xalign 0.5
+                yalign 0.65
+                at osd_buttons_transition
+                action ShowMenu('osd_achievement_description', achievement='osd_as_before')
 
         else:
-            add "osd_locked" xalign 0.75 yalign 0.65
+            add "osd_locked" xalign 0.5 yalign 0.65
                 
         textbutton "[osd_return_text]":
             style "osd_log_button" 
@@ -414,6 +442,55 @@ screen osd_achievements():
             xalign 0.1
             ypos 970
             action [Hide('osd_achievements'), ShowMenu('osd_extra')]
+
+screen osd_achievement_description(achievement):
+    $ osd_achievements_info = {
+        'osd_old_story': {
+            'name': 'Старая история',
+            'background_path': 'osd/images/bg/osd_int_dining_hall_sunset.png',
+            'text': 'текст концовки1',
+        },
+
+        'osd_our_world': {
+            'name': 'Наш мир',
+            'background_path': 'osd/images/bg/osd_ext_camp_plain_sight.png',
+            'text': 'whwhwhwhhw'
+        },
+
+        'osd_perfect_gear': {
+            'name': 'Идеальная шестерёнка',
+            'background_path': 'osd/images/bg/osd_stars_anim/osd_stars_1.png',
+            'text': 'whwhwhwhw'
+        },
+
+        'osd_as_before': {
+            'name': 'Как раньше',
+            'background_path': 'images/bg/int_library_night2.jpg',
+            'text': 'txt2',
+        }
+    }
+
+    modal True
+
+    add osd_achievements_info[achievement]['background_path']
+
+    add 'osd_main_menu_frame'
+
+    text osd_achievements_info[achievement]['name']:
+        font osd_link_font
+        size 70
+        xalign 0.5
+        ypos 33
+        antialias True
+        kerning 2
+
+    textbutton "[osd_return_text]":
+        style "osd_log_button" 
+        text_style "osd_settings_link_main_menu_preferences" 
+        xalign 0.1
+        ypos 970
+        action [Hide('osd_achievement_description'), ShowMenu('osd_achievements')]
+
 
 screen osd_background_gallery():
     modal True

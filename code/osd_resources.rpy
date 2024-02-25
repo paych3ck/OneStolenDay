@@ -474,6 +474,15 @@ init:
             linear 0.2 yoffset -1
             repeat
 
+    transform osd_buttons_transition():
+        on hover:
+            alpha 1.0
+            linear 0.4 alpha 0.0
+            
+        on idle:
+            alpha 0.0
+            linear 0.4 alpha 1.0
+
     transform osd_heartbeat_anim(image_name, power, zoom2):
         contains:
             image_name
