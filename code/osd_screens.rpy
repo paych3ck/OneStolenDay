@@ -448,25 +448,25 @@ screen osd_achievement_description(achievement):
         'osd_old_story': {
             'name': 'Старая история',
             'background_path': 'osd/images/bg/osd_int_dining_hall_sunset.png',
-            'text': 'текст концовки1',
+            'text': 'В мире лагерей и вечных повторов сложно держаться\nза что-то материальное, поэтому культура Пионеров\nбыстро обросла своими правилами, суевериями и праздниками.\n\nПионеры обожают испытывать друг друга и\nсоревноваться в боях, музыке и даже в готовке.',
         },
 
         'osd_our_world': {
             'name': 'Наш мир',
             'background_path': 'osd/images/bg/osd_ext_camp_plain_sight.png',
-            'text': 'whwhwhwhhw'
+            'text': 'Лагерь использует крайне сложную систему «замка», проверки на выход. Сложно понять все его правила, но главное — каждый настоящий Пионер должен быть\nуверен, что выйти возможно. Довериться другим таким\nже как он.\n\n{i}И, если это произойдет, они вырвутся из замкнутой\nпетли{/i}. А единственными в лагере останутся лишь две сильнейшие куклы.'
         },
 
         'osd_perfect_gear': {
             'name': 'Идеальная шестерёнка',
             'background_path': 'osd/images/bg/osd_stars_anim/osd_stars_1.png',
-            'text': 'whwhwhwhw'
+            'text': 'Сначала считалось, что куклы глупы и заскриптованы,\nкак, например, все девушки из лагеря. Но никто и\nподумать не мог, что марионетки могут быть едва ли не сложнее самых изобретательных Пионеров.\n\nДаже если Пионеры выберутся, будет ли это\nпоражением лагеря?'
         },
 
         'osd_as_before': {
             'name': 'Как раньше',
             'background_path': 'images/bg/int_library_night2.jpg',
-            'text': 'txt2',
+            'text': 'Вечная жизнь имеет свои недостатки, но так же и свои\nплюсы. Пионеры могут бесконечно пробовать и\nразвиваться. Но никакая человеческая память не\nспособна вместить тысячи тысяч однообразных недель\nи самые старые пионеры в один день очнутся\n«новичками». Хоть многие и считают это проклятьем, но вечность без страха и смерти, когда её принять, дарит настоящее счастье.',
         }
     }
 
@@ -483,6 +483,12 @@ screen osd_achievement_description(achievement):
         ypos 33
         antialias True
         kerning 2
+
+    text osd_achievements_info[achievement]['text']:
+        font osd_link_font
+        size 60
+        xpos 130
+        ypos 140
 
     textbutton "[osd_return_text]":
         style "osd_log_button" 
@@ -560,10 +566,12 @@ screen osd_background_gallery():
 screen osd_music_room():
     modal True
 
-    if not osd_main_menu_var: 
+    if not osd_main_menu_var:
+        add 'osd_music_room_frame'
+
         frame background "osd_main_menu_frame":
             side "c r":
-                area (0.15, 0.22, 0.8, 0.73)
+                area (0.15, 0.22, 0.79, 0.73)
 
                 viewport:
                     id "osd_music_box"
@@ -576,8 +584,6 @@ screen osd_music_room():
                             textbutton name:
                                 style "osd_button_none"
                                 text_style "music_link"
-                                # style "osd_button_none"
-                                # text_style "osd_settings_header_main_menu_preferences"
                                 xalign 0.5
                                 action osd_mr.Play(track)
 
