@@ -135,7 +135,8 @@ init python:
             "osd_old_story": False,
             "osd_our_world": False,
             "osd_perfect_gear": False,
-            'osd_as_before': False
+            'osd_as_before': False,
+            'osd_new_begining': False
             }
 
     def osd_get_achievement(achievement_name):
@@ -384,7 +385,21 @@ init:
     image osd_lamp_anim_blurred_1 = im.Blur("osd/images/bg/osd_lamp_anim/osd_semen_room_lamp_1.png", 1.5)
     image osd_lamp_anim_blurred_2 = im.Blur("osd/images/bg/osd_lamp_anim/osd_semen_room_lamp_2.png", 1.5)
 
-    image osd_lamp_anim_blurred:
+    image osd_lamp_anim_1 = "osd/images/bg/osd_lamp_anim/osd_semen_room_lamp_1.png"
+    image osd_lamp_anim_2 = "osd/images/bg/osd_lamp_anim/osd_semen_room_lamp_2.png"
+
+    image bg osd_lamp_anim:
+        "osd_lamp_anim_1" with dspr
+        pause osd_lamp_anim_frequency
+        "osd_lamp_anim_2" with Dissolve(2)
+        pause osd_lamp_anim_frequency
+        "osd_lamp_anim_1" with dissolve
+        pause osd_lamp_anim_frequency
+        "osd_lamp_anim_2" with dspr
+        pause osd_lamp_anim_frequency
+        repeat
+
+    image bg osd_lamp_anim_blurred:
         "osd_lamp_anim_blurred_1" with dspr
         pause osd_lamp_anim_frequency
         "osd_lamp_anim_blurred_2" with Dissolve(2)
@@ -400,6 +415,8 @@ init:
     $ osd_quest2 = 0
     $ osd_quest3 = 0
     $ osd_quest4 = 0
+    $ osd_quest5 = 0
+    $ osd_end_of_secrets = False
 
     image silhouette osd_far = im.MatrixColor("osd/images/sprites/pi/far/osd_pi normal far.png", im.matrix.tint(0, 0, 0))
 

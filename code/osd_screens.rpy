@@ -435,6 +435,19 @@ screen osd_achievements():
 
         else:
             add "osd_locked" xalign 0.5 yalign 0.65
+
+        if persistent.osd_achievements["osd_new_begining"]:
+            add "osd_as_before_hover" xalign 0.5 yalign 0.8
+
+            imagebutton:
+                idle 'osd_as_before_idle'
+                xalign 0.5
+                yalign 0.8
+                at osd_buttons_transition
+                action ShowMenu('osd_achievement_description', achievement='osd_as_before')
+
+        else:
+            add "osd_locked" xalign 0.5 yalign 0.8
                 
         textbutton "[osd_return_text]":
             style "osd_log_button" 

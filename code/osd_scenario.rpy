@@ -136,15 +136,13 @@ label osd_main_scenario:
     show osd_hall pos2 smile3_burns at left with dspr
     osd_hall "И{w=0.3}-мен{w=0.3}-но!{w=0.3} Хорошо, что ты, моё менее надоедливое диссоциативное расстройство, это хорошо понимаешь."
     osd_hall "Но можешь раздавать в этом туре, я разрешаю."
-    show osd_nit smile_l with dspr:
-        xpos 1515
+    show osd_nit smile_l with dspr
     osd_narrator "Ниточник собрал рассеянную по столу колоду и лениво оскалился."
     osd_nit "Меня сейчас смоет волной твоей щедрости."
     osd_nit "Кстати о вечном, никто из вас не пытался добиться неприязни кукол?"
     osd_hall "Имеешь в виду страх?"
-    show osd_nit normal_l with dspr:
-        xpos 1515
-    osd_nit "Нет-нет. {w}Страх - это азбука.{w} Именно неприязни."
+    show osd_nit normal_l with dspr
+    osd_nit "Нет-нет. {w}Страх - это азбука. {w}Именно неприязни."
     osd_nit "Они ведь чуть ли не сами в руки падают, игнорируют все наши недостатки."
     osd_third "Просто часть их программы."
     osd_nit "С этим я и не спорил, Третий. {w}Дайте мне знать, если у вас получится. Меня в своё время это озадачило."
@@ -646,7 +644,8 @@ label osd_main_scenario:
     osd_nit "Мы с тобой знаем, что существует Внешний мир. У каждого из нас, с небольшой оговоркой, есть какие-нибудь воспоминания о {i}той{/i} жизни. {w}Иногда лишь отрывки походов в магазин или учебных будней."
     osd_nit "Эти воспоминания откуда-то взялись."
     osd_nit "Следовательно, в тот мир можно попасть."
-    osd_third "Смеешься надо мной? Если собираешься тратить моё время, так трать его на что-то хоть капельку благоразумное, а не очередные бредни о волшебном «выходе»! Вбей себе в голову: если бы выход существовал, все те волелюбные пташки бы давно выпорхнули из своей «отвратительной клетки»!"
+    osd_third "Смеешься надо мной? Если собираешься тратить моё время, так трать его на что-то хоть капельку благоразумное, а не очередные бредни о волшебном «выходе»!"
+    osd_third "Вбей себе в голову: если бы выход существовал, все те волелюбные пташки бы давно выпорхнули из своей «отвратительной клетки»!"
     hide osd_nit with dissolve
     osd_narrator "Я резко поднялся и пошел прочь от костра, не желая слушать заведомо лишенные смысла наборы слов."
     osd_th "Хотел бы чего-то подобного — расшевелил бы Семёнчиков."
@@ -705,8 +704,6 @@ label osd_questions:
         jump osd_questions_done
         
     menu:
-        #with dspr
-
         "Почему сегодня?":
             jump osd_question1
         
@@ -719,8 +716,7 @@ label osd_questions:
         "Почему я?":
             jump osd_question4
         
-        ##здесь бы я добавил условие, что если есть хотя бы одна ачивка, то показывай этот вопрос
-        "Это когда-то происходило раньше?":
+        "Это когда-то происходило раньше?" if any(persistent.osd_achievements.values()):
             jump osd_question5
         
         "Забудь, перейдем к сути.":
@@ -819,7 +815,7 @@ label osd_question4:
 
     jump osd_questions
     
-    label osd_question5:
+label osd_question5:
     if osd_quest5 == 0:
         osd_third "Как думаешь, это уже происходило раньше?"
         osd_nit "Что?"
@@ -860,7 +856,7 @@ label osd_question4:
                 osd_nit "А пока, пожалуйста, давай вернёмся к сегодняшнему дню."
                 $ osd_quest5 += 1
                 ## Глобальная для мода переменная(как, например ачивки)
-                $ osd_end_of_secrets = true
+                $ osd_end_of_secrets = True
         
             else:
                 if osd_quest5 == 3:
@@ -869,9 +865,7 @@ label osd_question4:
                     $ osd_quest4 += 1
                 
                 else:
-                ##if osd_quest5 >= 4:  проверка бесполезная. По всем прдыдущим if-else  и так выходит что только такие значения сюда дойдут
                     osd_nit "Хватит."
-                    ##Увеличивать переменную не нужно. Все последующие задавания этого вопроса будут попадать на эту петлю.
 
     jump osd_questions
 
@@ -915,6 +909,7 @@ label osd_fight_2:
     play music osd_painkiller_forest fadein 2
     play sound osd_portal_use
     osd_narrator "Ниточник демонстративно неторопливо открыл разлом. Затем медленно стал что-то вытягивать оттуда."
+    scene bg osd_nit_third_fight with fade
     osd_narrator "Это оказалось нечто. {w}Каркас дорожного знака от оcтановки, к навершию которого вместо знака было грубо припаяно огромное лезвие."
     osd_narrator "За единственные безопасные участки Ниточник держал эту громадину."
     osd_narrator "Только разглядев её части, я отскочил от костра на несколько метров. Иначе он мог убить меня даже не вставая со своего места."
@@ -1569,20 +1564,15 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Я падал, поднимался и полз вперед, в конце концов добравшись до стола, но голову от боли хотелось разбить о стену."
 
             scene bg osd_lamp_anim_blurred with dissolve:
-                linear 0.1 pos (0,10)
-                linear 0.1 pos (0,0)
-                linear 0.1 pos (10,0)
-                linear 0.1 pos (0,0)
-                linear 0.1 pos (0,10)
-                linear 0.1 pos (0,0)
-                linear 0.1 pos (10,0)
-                linear 0.1 pos (0,0)
-                linear 0.1 pos (0,10)
-                linear 0.1 pos (0,0)
-                linear 0.1 pos (10,0)
-                linear 0.1 pos (0,0)
+                xalign 0.5
+                yalign 0.5
+                ease 0.5 zoom 1.02
                 
             osd_th "ДА ЗАТКНИТЕСЬ ВЫ ВСЕ!"
+            scene bg osd_lamp_anim_blurred with dissolve:
+                xalign 0.5
+                yalign 0.5
+                ease 0.5 zoom 1.0
             osd_narrator "Мой мысленный крик заглушил все разговоры внутри черепа. Кажется, уж это они почувствовали."
             $ renpy.pause(1, hard=True)
             scene bg osd_lamp_anim with Dissolve(2)
@@ -1626,7 +1616,7 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Ничего необычного. Та самая остановка, те самые статуи."
             osd_narrator "Только в тени одной я разглядел силуэт."
             
-            if osd_end_of_secrets == True and persistent.osd_our_world == True:
+            if osd_end_of_secrets and persistent.osd_achievements["osd_our_world"]:
                 jump osd_end_of_secrets_route
             
             osd_third "Прячешься?"
@@ -2008,5 +1998,11 @@ label osd_end_of_secrets_route:
     
     
     
-    #osd_third 
+    $ osd_get_achievement('osd_new_begining')               
+    scene bg black with Dissolve(2)
+    stop ambience fadeout 2
+    stop music fadeout 2
+    $ renpy.pause(3, hard=True)
+    $ osd_set_main_menu_cursor()
+    $ MainMenu(confirm=False)()
     
