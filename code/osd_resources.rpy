@@ -146,10 +146,10 @@ init python:
             persistent.osd_achievements[achievement_name] = True
             osd_show_titles()
             renpy.play(sfx_achievement, channel='sound')
-            renpy.show(achievement_name, at_list=[osd_achievements_pos])
+            renpy.show(achievement_name + '_hover', at_list=[osd_achievements_pos])
             renpy.with_statement(moveinright)
             renpy.pause(4, hard=True)
-            renpy.hide(achievement_name)
+            renpy.hide(achievement_name + '_hover')
             renpy.with_statement(dissolve)
 
     def osd_show_titles():

@@ -13,7 +13,7 @@ init python:
     "osd_int_dining_hall_damaged", "osd_int_clubs_male_night_light",
     "osd_ext_music_club_night", "osd_ext_no_bus_pioneers",
     "osd_ext_bus_pioneers", "osd_int_bus_pioneers", "osd_int_dining_hall_sunset",
-    "osd_ext_camp_plain_sight", "osd_ext_camp_empty_field", "osd_ext_sky", 'osd_nit_third_fight'
+    "osd_ext_camp_plain_sight", "osd_ext_sky", 'osd_nit_third_fight'
     ]
 
     for bg in osd_gallery_bg_list:
