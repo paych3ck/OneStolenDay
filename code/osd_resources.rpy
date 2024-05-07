@@ -206,15 +206,16 @@ init python:
             osd_lock_quick_menu = False
             config.allow_skipping = True
 
-    def osd_portal_using(before_portal_use_bg, after_portal_use_bg):
+    def osd_portal_using(after_portal_use_bg):
+        before_portal_use_bg = renpy.get_attributes('bg')[0]
         renpy.play(osd_portal_use, channel="sound")
         renpy.scene()
-        renpy.show(before_portal_use_bg, at_list = [osd_portal_using_zoom])
-        renpy.pause(0.035, hard = True)
+        renpy.show(before_portal_use_bg, at_list=[osd_portal_using_zoom])
+        renpy.pause(0.035, hard=True)
         renpy.scene()
         renpy.show("bg white")
         renpy.transition(osd_portal_use_transition)
-        renpy.pause(1.2, hard = True)
+        renpy.pause(1.2, hard=True)
         renpy.show(after_portal_use_bg)
         renpy.transition(flash)
         renpy.pause(1.3, hard=True)
@@ -337,7 +338,7 @@ init python:
             for part in self.parts_cache:
                 xpos, ypos = part[1]
                 alpha, zoom = part[12], part[11]
-                t = Transform(child = part[0], zoom = zoom, alpha = alpha)
+                t = Transform(child=part[0], zoom=zoom, alpha=alpha)
                 cp_render = renpy.render(t, width, height, st, at)
                 renderObj.blit(cp_render, (xpos, ypos))
             
@@ -352,9 +353,9 @@ init:
 
     image osd_blank_skip = renpy.display.behavior.ImageButton(Null(1920, 1080), Null(1920, 1080), clicked=[Jump('osd_after_intro')])
 
-    image osd_titles_style = ParameterizedText(style="osd_titles_style", size = 40, xalign = 0.5)
+    image osd_titles_style = ParameterizedText(style="osd_titles_style", size=40, xalign=0.5)
 
-    image osd_loading_text = Text("Загрузка", size = 65, font = "osd/images/gui/fonts/gothic.ttf")
+    image osd_loading_text = Text("Загрузка", size=65, font="osd/images/gui/fonts/gothic.ttf")
 
     $ osd_lamp_anim_frequency = renpy.random.randint(1, 5)
 
@@ -380,6 +381,7 @@ init:
     image bg osd_stars_anim = osd_frame_animation("osd/images/bg/osd_stars_anim/osd_stars", 2, 1.5, True, Dissolve(1.5))
     image osd_blood_anim = osd_frame_animation("osd/images/gui/effects/osd_blood/osd_blood", 4, 0.5, True, dspr)
     image bg osd_fireplace_anim = osd_frame_animation("osd/images/bg/osd_fireplace_anim/osd_fireplace", 10, 1.8, True, Dissolve(1.2))
+    image bg osd_ext_camp_entrance_anim = osd_frame_animation("osd/images/bg/osd_ext_camp_entrance_anim/osd_ext_camp_entrance", 3, 1.0, True, Dissolve(1.0))
     image osd_lamp_anim = osd_frame_animation("osd/images/bg/osd_lamp_anim/osd_semen_room_lamp", 2, osd_lamp_anim_frequency, True, dspr)
 
     image osd_lamp_anim_blurred_1 = im.Blur("osd/images/bg/osd_lamp_anim/osd_semen_room_lamp_1.png", 1.5)
@@ -409,6 +411,15 @@ init:
         "osd_lamp_anim_blurred_2" with dspr
         pause osd_lamp_anim_frequency
         repeat
+
+    image bg osd_ext_road_day_full_nit:
+        contains:
+            "bg osd_ext_road_day_full"
+            ypos -1080
+
+        contains:
+            "osd_nit smil3_r"
+            xalign 0.5
 
     $ osd_expl_death = False
     $ osd_quest1 = 0

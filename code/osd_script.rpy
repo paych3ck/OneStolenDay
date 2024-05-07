@@ -68,7 +68,7 @@ init python:
         renpy.music.stop("music")
         renpy.music.stop("sound")
         renpy.music.stop("sound_loop")
-        renpy.play(music_list["blow_with_the_fires"], channel = "music")
+        renpy.play(music_list["blow_with_the_fires"], channel="music")
 
     def osd_screens_save_act():
         osd_screens_save()

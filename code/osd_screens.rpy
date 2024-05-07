@@ -39,7 +39,7 @@ init python:
         "OSD — The Ancients": osd_the_ancients
     }
 
-    osd_mr = MusicRoom(fadeout = 1.0)
+    osd_mr = MusicRoom(fadeout=1.0)
 
     for music_name in osd_music_box.values():
         osd_mr.add(music_name)
@@ -284,7 +284,7 @@ screen osd_load_main_menu():
             text_style "osd_settings_link_main_menu_preferences" 
             xalign 0.5
             ypos 970
-            action (OsdFunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm = False))
+            action (OsdFunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm=False))
                  
         textbutton "[osd_delete_text]":
             style "osd_log_button" 
