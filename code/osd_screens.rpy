@@ -315,7 +315,7 @@ screen osd_load_main_menu():
                         style "osd_save_load_button_main_menu"
 
                         fixed:
-                            text ("%s." % i + FileTime(i, format = " %d.%m.%y, %H:%M", empty = " " + "Пусто") + "\n" + FileSaveName(i)):
+                            text ("%s." % i + FileTime(i, format=" %d.%m.%y, %H:%M", empty=" " + "Пусто") + "\n" + FileSaveName(i)):
                                 style "osd_text_save_load_main_menu"
                                 xpos 15
                                 ypos 15
@@ -382,72 +382,64 @@ screen osd_achievements():
             antialias True
             kerning 2
 
-        add osd_gui_path + "achievements/frame.png" xalign 0.5 ypos 160
+        add osd_gui_path + "achievements/frame.png" xalign 0.5 ypos 240
 
-        if persistent.osd_achievements["osd_old_story"]:
-            add "osd_old_story_hover" xalign 0.5 yalign 0.2
+        $ osd_achievements_buttons = {
+            'osd_our_world': {
+                'hover': 'osd_our_world_hover',
+                'idle': 'osd_our_world_idle',
+                'xalign': 0.35, 
+                'ypos': 290
+            },
 
-            imagebutton:
-                idle 'osd_old_story_idle'
-                xalign 0.5
-                yalign 0.2
-                at osd_buttons_transition
-                action ShowMenu('osd_achievement_description', achievement='osd_old_story')
+            'osd_old_story': {
+                'hover': 'osd_old_story_hover',
+                'idle': 'osd_old_story_idle',
+                'xalign': 0.65,
+                'ypos': 290
+            },
 
-        else:
-            add "osd_locked" xalign 0.5 yalign 0.2
+            'osd_as_before': {
+                'hover': 'osd_as_before_hover',
+                'idle': 'osd_as_before_idle',
+                'xalign': 0.35, 
+                'ypos': 490
+            },
 
-        if persistent.osd_achievements["osd_our_world"]:
-            add "osd_our_world_hover" xalign 0.5 yalign 0.35
+            'osd_perfect_gear': {
+                'hover': 'osd_perfect_gear_hover',
+                'idle': 'osd_perfect_gear_idle', 
+                'xalign': 0.65, 
+                'ypos': 490
+            },
 
-            imagebutton:
-                idle 'osd_our_world_idle'
-                xalign 0.5
-                yalign 0.35
-                at osd_buttons_transition
-                action ShowMenu('osd_achievement_description', achievement='osd_our_world')
+            'osd_wind_of_changes': {
+                'hover': 'osd_wind_of_changes_hover',
+                'idle': 'osd_wind_of_changes_idle',
+                'xalign': 0.35, 
+                'ypos': 690
+            },
 
-        else:
-            add "osd_locked" xalign 0.5 yalign 0.35
+            'osd_calm': {
+                'hover': 'osd_calm_hover',
+                'idle': 'osd_calm_idle',
+                'xalign': 0.65, 
+                'ypos': 690
+            },
+        }
 
-        if persistent.osd_achievements["osd_perfect_gear"]:
-            add "osd_perfect_gear_hover" xalign 0.5 yalign 0.5
+        for achievement, buttons_info in osd_achievements_buttons.items():
+            if persistent.osd_achievements.get(achievement, False):
+                add buttons_info["hover"] xalign buttons_info["xalign"] ypos buttons_info["ypos"]
 
-            imagebutton:
-                idle 'osd_perfect_gear_idle'
-                xalign 0.5
-                yalign 0.5
-                at osd_buttons_transition
-                action ShowMenu('osd_achievement_description', achievement='osd_perfect_gear')
-
-        else:
-            add "osd_locked" xalign 0.5 yalign 0.5
-
-        if persistent.osd_achievements["osd_as_before"]:
-            add "osd_as_before_hover" xalign 0.5 yalign 0.65
-
-            imagebutton:
-                idle 'osd_as_before_idle'
-                xalign 0.5
-                yalign 0.65
-                at osd_buttons_transition
-                action ShowMenu('osd_achievement_description', achievement='osd_as_before')
-
-        else:
-            add "osd_locked" xalign 0.5 yalign 0.65
-
-        if persistent.osd_achievements["osd_new_begining"]:
-            add "osd_as_before_hover" xalign 0.5 yalign 0.8
-
-            imagebutton:
-                idle 'osd_as_before_idle'
-                xalign 0.5
-                yalign 0.8
-                at osd_buttons_transition
-                action ShowMenu('osd_achievement_description', achievement='osd_as_before')
-
-        else:
-            add "osd_locked" xalign 0.5 yalign 0.8
+                imagebutton:
+                    idle buttons_info["idle"]
+                    xalign buttons_info["xalign"]
+                    ypos buttons_info["ypos"]
+                    at osd_buttons_transition
+                    action ShowMenu('osd_achievement_description', achievement=achievement)
+            else:
+                add "osd_locked" xalign buttons_info["xalign"] ypos buttons_info["ypos"]
                 
         textbutton "[osd_return_text]":
             style "osd_log_button" 
@@ -460,32 +452,44 @@ screen osd_achievement_description(achievement):
     $ osd_achievements_info = {
         'osd_old_story': {
             'name': 'Старая история',
-            'background_path': 'osd/images/bg/osd_int_dining_hall_sunset.png',
-            'text': 'В мире лагерей и вечных повторов сложно держаться\nза что-то материальное, поэтому культура Пионеров\nбыстро обросла своими правилами, суевериями и праздниками.\n\nПионеры обожают испытывать друг друга и\nсоревноваться в боях, музыке и даже в готовке.',
+            'background': 'osd/images/bg/osd_int_dining_hall_sunset.png',
+            'text': 'В мире лагерей и вечных повторов сложно держаться\nза что-то материальное, поэтому культура Пионеров\nбыстро обросла своими правилами, суевериями и праздниками.\n\nПионеры обожают испытывать друг друга и\nсоревноваться в боях, музыке и даже в готовке.'
         },
 
         'osd_our_world': {
             'name': 'Наш мир',
-            'background_path': 'osd/images/bg/osd_ext_camp_plain_sight.png',
+            'background': 'osd/images/bg/osd_ext_camp_plain_sight.png',
             'text': 'Лагерь использует крайне сложную систему «замка», проверки на выход. Сложно понять все его правила, но главное — каждый настоящий Пионер должен быть\nуверен, что выйти возможно. Довериться другим таким\nже как он.\n\n{i}И, если это произойдет, они вырвутся из замкнутой\nпетли{/i}. А единственными в лагере останутся лишь две сильнейшие куклы.'
         },
 
         'osd_perfect_gear': {
             'name': 'Идеальная шестерёнка',
-            'background_path': 'osd/images/bg/osd_stars_anim/osd_stars_1.png',
+            'background': 'osd/images/bg/osd_stars_anim/osd_stars_1.png',
             'text': 'Сначала считалось, что куклы глупы и заскриптованы,\nкак, например, все девушки из лагеря. Но никто и\nподумать не мог, что марионетки могут быть едва ли не сложнее самых изобретательных Пионеров.\n\nДаже если Пионеры выберутся, будет ли это\nпоражением лагеря?'
         },
 
         'osd_as_before': {
             'name': 'Как раньше',
-            'background_path': 'images/bg/int_library_night2.jpg',
-            'text': 'Вечная жизнь имеет свои недостатки, но так же и свои\nплюсы. Пионеры могут бесконечно пробовать и\nразвиваться. Но никакая человеческая память не\nспособна вместить тысячи тысяч однообразных недель\nи самые старые пионеры в один день очнутся\n«новичками». Хоть многие и считают это проклятьем, но вечность без страха и смерти, когда её принять, дарит настоящее счастье.',
+            'background': 'images/bg/int_library_night2.jpg',
+            'text': 'Вечная жизнь имеет свои недостатки, но так же и свои\nплюсы. Пионеры могут бесконечно пробовать и\nразвиваться. Но никакая человеческая память не\nспособна вместить тысячи тысяч однообразных недель\nи самые старые пионеры в один день очнутся\n«новичками». Хоть многие и считают это проклятьем, но вечность без страха и смерти, когда её принять, дарит настоящее счастье.'
+        },
+
+        'osd_wind_of_changes': {
+            'name': 'Ветер перемен',
+            'background': 'images/bg/ext_road_day.jpg',
+            'text': 'Чтобы разрушить Лагерь, нужно понять, как он работает, каким он был и каковы его пределы.\n\nВряд ли это просто, или даже возможно, но, быть может, удастся его расшатать?',
+        },
+
+        'osd_calm': {
+            'name': 'Штиль',
+            'background': 'bg osd_ext_camp_entrance_anim',
+            'text': 'Мир лагерей огромен, хоть и не кажется таковым.\nЭто система, прошедшая тысячи лет и сотни тысяч\nиспытаний.\n\nНесмотря ни на что, она выполняла свою цель.\nНиточник не первый, кто захотел с ней покончить.\n\n{i}И он никогда не справится один.{/i}'
         }
     }
 
     modal True
 
-    add osd_achievements_info[achievement]['background_path']
+    add osd_achievements_info[achievement]['background']
 
     add 'osd_main_menu_frame'
 
@@ -552,7 +556,7 @@ screen osd_background_gallery():
                     $ osd_img = im.Composite((336, 196), (8, 8), im.Alpha(_osd_img_scaled, 0.9), (0, 0), im.Image(osd_gui_path + "/save_load/main_menu/thumbnail_idle.png"))
                     $ osd_imgh = im.Composite((336, 196), (8, 8), _osd_img_scaled, (0, 0), im.Image(osd_gui_path + "/save_load/main_menu/thumbnail_hover.png"))
 
-                    add osd_g.make_button(osd_gallery_table[n], get_image("gui/gallery/blank.png"), None, osd_imgh, osd_img , style = "blank_button", bottom_margin = 50, right_margin = 50)
+                    add osd_g.make_button(osd_gallery_table[n], get_image("gui/gallery/blank.png"), None, osd_imgh, osd_img, style="blank_button", bottom_margin=50, right_margin=50)
 
                     $ osd_bg_displayed += 1
 
@@ -654,7 +658,7 @@ screen osd_preferences():
                 has grid 1 16 xfill True spacing 15
 
                 text "[osd_display_preferences_text]":
-                    style "osd_settings_header_" + persistent.timeofday + ""
+                    style "osd_settings_header_" + persistent.timeofday
                     xalign 0.5
 
                 grid 2 1 xfill True:
@@ -667,7 +671,7 @@ screen osd_preferences():
 
                         textbutton "[osd_display_preferences_fullscreen_text]": 
                             style "osd_log_button"
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action Preference("display", "fullscreen")
 
                     hbox xalign 0.5:
@@ -679,11 +683,11 @@ screen osd_preferences():
 
                         textbutton "[osd_display_preferences_window_text]": 
                             style "osd_log_button"
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action Preference("display", "window")
 
                 text "[osd_skip_preferences_text]":
-                    style "osd_settings_header_" + persistent.timeofday + ""
+                    style "osd_settings_header_" + persistent.timeofday
                     xalign 0.5
 
                 grid 2 1 xfill True:
@@ -696,7 +700,7 @@ screen osd_preferences():
 
                         textbutton "[osd_skip_preferences_all_text]": 
                             style "osd_log_button" 
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action Preference("skip", "all")
 
                     hbox xalign 0.5:
@@ -708,17 +712,17 @@ screen osd_preferences():
 
                         textbutton "[osd_skip_preferences_seen_text]": 
                             style "osd_log_button" 
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action Preference("skip", "seen")
 
                 text ["Громкость"]:
-                    style "osd_settings_header_" + persistent.timeofday + ""                    
+                    style "osd_settings_header_" + persistent.timeofday                   
                     xalign 0.5
 
                 grid 2 1 xfill True:
                     textbutton ["Музыка"]: 
                         style "osd_log_button"
-                        text_style "osd_settings_text_" + persistent.timeofday + ""
+                        text_style "osd_settings_text_" + persistent.timeofday
                         action NullAction()
                         xpos 0.1
 
@@ -735,7 +739,7 @@ screen osd_preferences():
                 grid 2 1 xfill True:
                     textbutton ["Звуки"]: 
                         style "osd_log_button"
-                        text_style "osd_settings_text_" + persistent.timeofday + ""
+                        text_style "osd_settings_text_" + persistent.timeofday
                         action NullAction()
                         xpos 0.1
 
@@ -752,7 +756,7 @@ screen osd_preferences():
                 grid 2 1 xfill True:
                     textbutton ["Эмбиент"]: 
                         style "osd_log_button"
-                        text_style "osd_settings_text_" + persistent.timeofday + ""
+                        text_style "osd_settings_text_" + persistent.timeofday
                         action NullAction()
                         xpos 0.1
 
@@ -767,7 +771,7 @@ screen osd_preferences():
                         xpos -0.55
 
                 text ["Скорость текста"]:
-                    style "osd_settings_header_" + persistent.timeofday + ""
+                    style "osd_settings_header_" + persistent.timeofday
                     xalign 0.5
 
                 bar: 
@@ -781,7 +785,7 @@ screen osd_preferences():
                     ymaximum 36
 
                 text ["Автопереход"]:
-                    style "osd_settings_header_" + persistent.timeofday + ""
+                    style "osd_settings_header_" + persistent.timeofday
                     xalign 0.5
 
                 grid 2 1 xfill True:
@@ -794,7 +798,7 @@ screen osd_preferences():
 
                         textbutton ["Включить"]: 
                             style "osd_log_button"
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action Preference("auto-forward after click", "enable")
 
                     hbox xalign 0.5:
@@ -806,11 +810,11 @@ screen osd_preferences():
 
                         textbutton ["Выключить"]: 
                             style "osd_log_button"
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action (Preference("auto-forward time", 0), Preference("auto-forward after click", "disable"))
 
                 text ["Время автоперехода"]:
-                    style "osd_settings_header_" + persistent.timeofday + ""
+                    style "osd_settings_header_" + persistent.timeofday
                     xalign 0.5
 
                 bar: 
@@ -824,7 +828,7 @@ screen osd_preferences():
                     ymaximum 36
 
                 text "[osd_font_size_preferences_text]":
-                    style "osd_settings_header_" + persistent.timeofday + ""
+                    style "osd_settings_header_" + persistent.timeofday
                     xalign 0.5
 
                 grid 2 1 xfill True:
@@ -837,7 +841,7 @@ screen osd_preferences():
 
                         textbutton "[osd_font_size_preferences_small_text]":
                             style "osd_log_button"
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action SetField(persistent, "font_size", "small")
 
                     hbox xalign 0.5:
@@ -849,7 +853,7 @@ screen osd_preferences():
 
                         textbutton "[osd_font_size_preferences_large_text]": 
                             style "osd_log_button"
-                            text_style "osd_settings_text_" + persistent.timeofday + ""
+                            text_style "osd_settings_text_" + persistent.timeofday
                             action SetField(persistent, "font_size", "large")
 
             bar: 
@@ -889,7 +893,7 @@ screen osd_save():
             text_style "osd_settings_link"
             yalign 0.92 
             xalign 0.5 
-            action (OsdFunctionCallback(osd_on_save_callback,selected_slot), FileSave(selected_slot))
+            action (OsdFunctionCallback(osd_on_save_callback, selected_slot), FileSave(selected_slot))
 
         textbutton "[osd_delete_text]": 
             style "osd_log_button" 
@@ -911,7 +915,7 @@ screen osd_save():
                         action SetVariable("selected_slot", i)
                         xfill False
                         yfill False
-                        style "osd_save_load_button_" + persistent.timeofday + ""
+                        style "osd_save_load_button_" + persistent.timeofday
                         has fixed
                         text ("%s." % i + FileTime(i, format = " %d.%m.%y, %H:%M", empty = " " + translation_new["Empty_slot"]) + "\n" + FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15
     
@@ -938,7 +942,7 @@ screen osd_load():
             text_style "osd_settings_link" 
             yalign 0.92 
             xalign 0.5 
-            action (OsdFunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm = False))
+            action (OsdFunctionCallback(osd_on_load_callback,selected_slot), FileLoad(selected_slot, confirm=False))
         
         textbutton "[osd_delete_text]": 
             style "osd_log_button" 
@@ -960,7 +964,7 @@ screen osd_load():
                         action SetVariable("selected_slot", i)
                         xfill False
                         yfill False
-                        style "osd_save_load_button_" + persistent.timeofday + ""
+                        style "osd_save_load_button_" + persistent.timeofday
                         has fixed
                         text ("%s." % i + FileTime(i, format = " %d.%m.%y, %H:%M", empty = " " + translation_new["Empty_slot"]) + "\n" +FileSaveName(i)) style "file_picker_text" xpos 15 ypos 15                  
                                 
@@ -1535,7 +1539,7 @@ screen osd_bar1(osd_x1_time):
         ysize 34
         xmaximum 1796
 
-        value AnimatedValue(old_value = 1.0, value = 0.0, range = 1.0, delay = osd_x1_time)
+        value AnimatedValue(old_value=1.0, value=0.0, range=1.0, delay=osd_x1_time)
 
     timer osd_x1_time action [Hide ("osd_bar1"), Jump("osd_death1")]
 
@@ -1592,7 +1596,7 @@ screen osd_bar2(osd_x2_time):
         ysize 34
         xmaximum 1796
 
-        value AnimatedValue(old_value = 1.0, value = 0.0, range = 1.0, delay = osd_x2_time)
+        value AnimatedValue(old_value=1.0, value=0.0, range=1.0, delay=osd_x2_time)
 
     timer osd_x2_time action [Hide("osd_bar2"), Jump("osd_death2")]
 

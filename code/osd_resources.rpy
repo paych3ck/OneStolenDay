@@ -131,13 +131,14 @@ init python:
             return l
 
     if persistent.osd_achievements == None:
-        persistent.osd_achievements = {
-            "osd_old_story": False,
-            "osd_our_world": False,
-            "osd_perfect_gear": False,
-            'osd_as_before': False,
-            'osd_new_begining': False
-            }
+        persistent.osd_achievements = {}
+
+    persistent.osd_achievements.setdefault('osd_old_story', False)
+    persistent.osd_achievements.setdefault('osd_our_world', False)
+    persistent.osd_achievements.setdefault('osd_perfect_gear', False)
+    persistent.osd_achievements.setdefault('osd_as_before', False)
+    persistent.osd_achievements.setdefault('osd_wind_of_changes', False)
+    persistent.osd_achievements.setdefault('osd_calm', False)
 
     def osd_get_achievement(achievement_name):
         renpy.pause(1, hard=True)
@@ -421,13 +422,14 @@ init:
             "osd_nit smil3_r"
             xalign 0.5
 
-    $ osd_expl_death = False
     $ osd_quest1 = 0
     $ osd_quest2 = 0
     $ osd_quest3 = 0
     $ osd_quest4 = 0
     $ osd_quest5 = 0
+    #$ osd_quest_threshold = 5 if any(persistent.osd_achievements.values()) else 4
     $ osd_end_of_secrets = False
+    $ osd_expl_death = False
 
     image silhouette osd_far = im.MatrixColor("osd/images/sprites/pi/far/osd_pi normal far.png", im.matrix.tint(0, 0, 0))
 
@@ -465,21 +467,6 @@ init:
         xpos 1535
         ypos 600
 
-    transform osd_loading_text_pos():
-        xalign 0.5 ypos 855
-
-    transform osd_first_dot_pos():
-        xpos 1105
-        ypos 915
-
-    transform osd_second_dot_pos():
-        xpos 1118
-        ypos 915
-
-    transform osd_third_dot_pos():
-        xpos 1131
-        ypos 915
-
     transform osd_portal_using_zoom():
         xalign 0.5 yalign 0.5 zoom 1.0
         linear 0.5 zoom 2 xalign 0.5 yalign 0.5
@@ -510,6 +497,23 @@ init:
         on idle:
             alpha 0.0
             linear 0.4 alpha 1.0
+
+    transform osd_vertigo():
+        xalign 0.5
+        yalign 0.5
+        zoom 1.0
+        parallel:
+            linear 1 zoom 1.05
+
+        parallel:
+            ease 1 xalign 0.48
+            ease 1 xalign 0.52
+            repeat
+
+        parallel:
+            ease 1.5 rotate 1.5 zoom 1.05
+            ease 1.5 rotate -1.05 zoom 1.035
+            repeat
 
     transform osd_heartbeat_anim(image_name, power, zoom2):
         contains:
