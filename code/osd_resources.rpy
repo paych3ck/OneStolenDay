@@ -13,7 +13,7 @@ init python:
                 renpy.image(file_path, file_name)
 
             elif file_name.startswith("osd/images/sprites/"):
-                renpy.image(file_path, ConditionSwitch("persistent.sprite_time == 'sunset'", im.MatrixColor(file_name, im.matrix.tint(0.94, 0.82, 1.0)), "persistent.sprite_time == 'night'", im.MatrixColor(file_name, im.matrix.tint(0.63, 0.78, 0.82)), True, file_name))
+                renpy.image(file_path, ConditionSwitch("persistent.sprite_time=='sunset'", im.MatrixColor(file_name, im.matrix.tint(0.94, 0.82, 1.0)), "persistent.sprite_time=='night'", im.MatrixColor(file_name, im.matrix.tint(0.63, 0.78, 0.82)), True, file_name))
 
             elif file_name.startswith("osd/sounds/"):
                 globals()[file_path] = file_name
@@ -62,28 +62,28 @@ init python:
         
         if character_name == "osd_narrator":
             if is_nvl:
-                osd_gl["osd_narrator"] = Character(None, kind = nvl, what_style = "osd_text_style")
+                osd_gl["osd_narrator"] = Character(None, kind=nvl, what_style="osd_text_style")
             
             else:
-                osd_gl["osd_narrator"] = Character(None, what_style = "osd_text_style")
+                osd_gl["osd_narrator"] = Character(None, what_style="osd_text_style")
             
             return
         
         if character_name == "osd_th":
             if is_nvl:
-                osd_gl["osd_th"] = Character(None, kind = nvl, what_style = "osd_text_style", what_prefix = "~ ", what_suffix = " ~")
+                osd_gl["osd_th"] = Character(None, kind=nvl, what_style="osd_text_style", what_prefix="~ ", what_suffix=" ~")
             
             else:
-                osd_gl["osd_th"] = Character(None, what_style = "osd_text_style", what_prefix = "~ ", what_suffix = " ~")
+                osd_gl["osd_th"] = Character(None, what_style="osd_text_style", what_prefix="~ ", what_suffix=" ~")
             
             return
         
         if is_nvl:
-            osd_gl[character_name] = DynamicCharacter("%s_name" % character_name, color = store.osd_colors[character_name][osd_speaker_color], kind = nvl, what_style = "osd_text_style", who_suffix = ":")
+            osd_gl[character_name] = DynamicCharacter("%s_name" % character_name, color=store.osd_colors[character_name][osd_speaker_color], kind=nvl, what_style="osd_text_style", who_suffix=":")
             osd_gl["%s_name" % character_name] = store.osd_names[character_name]
         
         else:
-            osd_gl[character_name] = DynamicCharacter("%s_name" % character_name, color = store.osd_colors[character_name][osd_speaker_color], what_style = "osd_text_style")
+            osd_gl[character_name] = DynamicCharacter("%s_name" % character_name, color=store.osd_colors[character_name][osd_speaker_color], what_style="osd_text_style")
             osd_gl["%s_name" % character_name] = store.osd_names[character_name]
 
     def osd_set_mode_adv():
@@ -430,7 +430,6 @@ init:
     $ osd_quest3 = 0
     $ osd_quest4 = 0
     $ osd_quest5 = 0
-    #$ osd_quest_threshold = 5 if any(persistent.osd_achievements.values()) else 4
     $ osd_end_of_secrets = False
     $ osd_expl_death = False
 

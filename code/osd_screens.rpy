@@ -459,7 +459,7 @@ screen osd_achievement_description(achievement):
         'osd_our_world': {
             'name': 'Наш мир',
             'background': 'osd/images/bg/osd_ext_camp_plain_sight.png',
-            'text': 'Лагерь использует крайне сложную систему «замка», проверки на выход. Сложно понять все его правила, но главное — каждый настоящий Пионер должен быть\nуверен, что выйти возможно. Довериться другим таким\nже как он.\n\n{i}И, если это произойдет, они вырвутся из замкнутой\nпетли{/i}. А единственными в лагере останутся лишь две сильнейшие куклы.'
+            'text': 'Лагерь использует крайне сложную систему «замка», проверки на выход. Сложно понять все его правила, но главное — каждый настоящий Пионер должен быть\nуверен, что выйти возможно. Довериться другим таким\nже, как он.\n\n{i}И, если это произойдет, они вырвутся из замкнутой\nпетли{/i}. А единственными в лагере останутся лишь две сильнейшие куклы.'
         },
 
         'osd_perfect_gear': {
@@ -1397,27 +1397,22 @@ screen osd_help():
         xalign 0.5
         ypos 350
         action OpenURL("https://vk.com/public176281709")
-            
-    textbutton ["Бессонница"]:
+
+    textbutton ["Под холодным небом"]:
         style "osd_log_button" 
         text_style "osd_settings_header_main_menu_quit"
         xalign 0.5
         ypos 500
-        action OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=1636163628")    
-            
-    textbutton ["Петля времени"]:
+        action OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2262867309")
+
+    textbutton ["Сон"]:
         style "osd_log_button" 
         text_style "osd_settings_header_main_menu_quit"
         xalign 0.5
         ypos 650
-        action OpenURL("https://youtu.be/x2KBAuBKWL8")        
-            
-    imagebutton:
-        idle osd_gui_path + "logowhite_hover.png"
-        hover osd_gui_path + "logowhite_hover.png"
-        xpos 1520
-        ypos 890
-        action NullAction()
+        action OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2663197411")
+
+    add "osd_logowhite_hover" xpos 1520 ypos 890
 
     textbutton "[osd_return_text]": 
         style "osd_log_button" 
