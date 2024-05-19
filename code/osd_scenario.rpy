@@ -543,7 +543,7 @@ label osd_main_scenario:
     scene bg ext_square_night with Dissolve(1)
     play ambience ambience_camp_center_night fadein 2
     play music osd_heroes_of_might_and_magic_4_combat_theme_III fadein 6
-    osd_narrator "К домикам? Что я там найду? {w}Любовь всей жизни? {w}Страх? {w}Просто смешно." with dissolve
+    osd_narrator "Дома пионеров? Что я там найду? {w}Любовь всей жизни? {w}Страх? {w}Просто смешно." with dissolve
     show dv normal pioneer far with dissolve:
         xalign -1.0
         linear 3 xalign 2.0
@@ -1444,7 +1444,7 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Презрение к нему уже не вызывало каких-то эмоций. {w}Жаль, но и это занятие себя истощило."
             osd_narrator "Я медленно окинул всех взглядом."
             osd_th "Пора приступать."
-            osd_third "Надеюсь, все здесь знакомы с тезисами Ниточника? Прекрасно."
+            osd_third "Надеюсь, все здесь знакомы с тезисами Ниточника? {w}Прекрасно."
             osd_third "Кто-то кукла, призванная задержать нас здесь. {w}Просто, понятно, и, возможно, правдиво."
             osd_narrator "Пассажиры внимательно ловили каждое слово."
             osd_third "Но есть небольшая неупомянутая деталь."
@@ -1489,7 +1489,7 @@ label osd_eternity_split_in_two_transit:
             osd_narrator "Иногда стоит дать время. Нам ли этого не знать."
             osd_narrator "Халл отнесся к этому с иронией, часто шутил. {w}Был своего рода оплотом оптимизма и здравого смысла для остальных."
             osd_narrator "Кроме Ниточника, все быстро оправились. {w}Выбросили то время из головы."
-            osd_narrator "Ничего не изменилось. {w}Ничего не должно было измениться."
+            osd_narrator "Ничего не изменилось. {w}И не должно было."
             osd_narrator "Все эти сотни и тысячи циклов были и будут. {w}Их не сдвинуть, не расшатать. {w}Даже не поцарапать."
             play sound sfx_open_door_1
             $ renpy.pause(2, hard=True)
