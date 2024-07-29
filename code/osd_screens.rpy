@@ -1175,7 +1175,7 @@ screen osd_game_menu_selector():
         imagemap:
             auto osd_gui_path + "quick_menu/" + persistent.timeofday + "/quick_menu_%s.png" xalign 0.5 yalign 0.5
 
-            hotspot (0, 83, 660, 65) focus_mask None clicked [yn_set_main_menu_cursor_curried(), MainMenu(confirm=False)]
+            hotspot (0, 83, 660, 65) focus_mask None clicked [osd_set_main_menu_cursor_curried(), MainMenu(confirm=False)]
 
             hotspot (0, 148, 660, 65) focus_mask None clicked ShowMenu("osd_save")
 
